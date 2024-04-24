@@ -1,3 +1,5 @@
 FinancialData/
 .DS_Store
 CleanedData/
+**/__pycache__/
+*.pyc
