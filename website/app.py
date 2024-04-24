@@ -1,6 +1,6 @@
 from dash import Dash
 import dash_bootstrap_components as dbc
-from .pages.index.index_layout import layout
+from pages.index.index_layout import layout
 
 external_stylesheets = [dbc.themes.CERULEAN]
 
