@@ -119,7 +119,6 @@ def sidebar():
             "bottom": "0",
             "width": SIDE_BAR_WIDTH,
             "background-color": "#000000",
-            "border-radius": "30px 30px 0px 30px",
             "z-index": DEPTH["SIDE_BAR"],
         },
     )
