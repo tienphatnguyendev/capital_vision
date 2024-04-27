@@ -12,7 +12,7 @@ app = Dash(
 )
 
 server = app.server
-app.layout = layout
+app.layout = layout()
 
 
 if __name__ == "__main__":
