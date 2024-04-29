@@ -1,4 +1,9 @@
 FinancialData/
 .DS_Store
 CleanedData/
+<<<<<<< HEAD
 venv-capital-vision/
+=======
+**/__pycache__/
+*.pyc
+>>>>>>> 79dac3d00cbfb7cd1104fefbc94c26e045ca4a06
