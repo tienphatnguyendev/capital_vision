@@ -35,7 +35,7 @@ header = dbc.Container(
         DashIconify(
             icon="ph:stack-light",
             style={
-                "color": "green",
+                "color": "#ffc336",
                 "scale": "1.5",
                 "margin-right": "10px",
                 "margin-left": "-5px",
