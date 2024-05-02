@@ -37,7 +37,6 @@ def header_container():
             "height": "100px",
             "display": "flex",
             "justify-content": "center",
-            "margin-right": "-100px",
             "margin-top": "20px",
         },
     )
