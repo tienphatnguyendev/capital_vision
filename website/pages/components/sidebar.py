@@ -3,8 +3,9 @@ from dash import html, Input, Output, State, callback, dcc
 import dash_bootstrap_components as dbc
 from pages.constants.depth import DEPTH
 from dash_iconify import DashIconify
+from pages.constants.constants import ELEMENT
 
-SIDE_BAR_WIDTH = "210px"
+SIDE_BAR_WIDTH = f"{ELEMENT['sideBar']['width']}px"
 
 COMMON_STYLE = {
     "height": "53px",

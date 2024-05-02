@@ -25,7 +25,7 @@ def line_graph(data_frame, graph_id, graph_value_id, name):
         "display": "block",
         "background-color": "#ffffff",
         "border-radius": "15px",
-        "box-shadow": "0 6px 6px 0 rgba(0, 0, 0, 0.02)",
+        "box-shadow": "0 4px 8px 0 rgba(0, 0, 0, 0.02), 0 6px 20px 0 rgba(0, 0, 0, 0.019)",
     }
 
     return dbc.Container(
