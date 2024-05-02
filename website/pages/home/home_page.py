@@ -1,11 +1,10 @@
 import dash
-from dash import dash_table, dcc, callback, Output, Input, html
-import pandas as pd
 import dash_bootstrap_components as dbc
 from pages.components.header_graph import header_container
 from pages.components.dupont_ratios_graph import dupont_ratios_graph
-from pages.constants.constants import ELEMENT
 from pages.components.sankey_graph import sankey_diagam
+from pages.components.breakdown_revenue_graph import breakdown_revenue_graph
+from pages.components.asset_structure_graph import asset_structure_graph
 
 dash.register_page(__name__, path="/")
 
@@ -26,6 +25,19 @@ layout = dbc.Container(
                         ),
                         dbc.Col(
                             dupont_ratios_graph(),
+                        ),
+                    ],
+                    style={
+                        "height": "300px",
+                    },
+                ),
+                dbc.Row(
+                    [
+                        dbc.Col(
+                            asset_structure_graph(),
+                        ),
+                        dbc.Col(
+                            breakdown_revenue_graph(),
                         ),
                     ],
                     style={
