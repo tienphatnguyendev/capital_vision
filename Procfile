@@ -1,1 +1,1 @@
-web: export PYTHONPATH=/app/capital_vision && python website/app.py
+web: gunicorn --chdir ./website app:app
