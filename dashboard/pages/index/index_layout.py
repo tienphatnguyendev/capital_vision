@@ -1,21 +1,17 @@
 import dash
-from dash import html
+from dash import html, dcc
 import dash_bootstrap_components as dbc
 from pages.components.sidebar import sidebar
 
 
 def layout():
-    return dbc.Row(
+    return dbc.Container(
         [
-            dbc.Container(
-                [
-                    html.Div(
-                        [sidebar(), dash.page_container],
-                        className="content",
-                    ),
-                ],
-                fluid=True,
-                className="dbc",
-            )
-        ]
+            html.Div(
+                [sidebar(), dash.page_container],
+                className="content",
+            ),
+        ],
+        fluid=True,
+        className="layout_body",
     )

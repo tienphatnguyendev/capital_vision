@@ -19,17 +19,24 @@ def breakdown_revenue_graph():
 
     fig.update_layout(showlegend=True, margin=dict(t=10, r=10, l=10, b=10))
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+    fig.update_layout(height=150)
 
-    return curved_panel(
+    return dbc.Card(
         [
-            dcc.Graph(
-                figure=fig,
-                style={
-                    "width": "100%",
-                    "height": "100%",
-                },
+            dbc.CardHeader("Breakdown Revenue"),
+            dbc.CardBody(
+                [
+                    dcc.Graph(
+                        figure=fig,
+                        style={
+                            "width": "100%",
+                            "height": "100%",
+                        },
+                    ),
+                ],
+                className="full_card_body",
             ),
         ],
-        "100%",
-        "100%",
+        color="light",
+        className="box_emissions",
     )

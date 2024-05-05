@@ -1,5 +1,6 @@
 import dash
 import dash_bootstrap_components as dbc
+from dash import html
 from pages.components.header_graph import header_container
 from pages.components.dupont_ratios_graph import dupont_ratios_graph
 from pages.components.sankey_graph import sankey_diagam
@@ -10,52 +11,34 @@ dash.register_page(__name__, path="/")
 
 layout = dbc.Container(
     [
-        dbc.Container(
+        dbc.Stack(
             [
-                dbc.Row(
-                    header_container(),
-                    style={
-                        "height": "170px",
-                    },
-                ),
+                dbc.Row(header_container(), justify="center"),
                 dbc.Row(
                     [
-                        dbc.Col(
-                            sankey_diagam(),
-                        ),
-                        dbc.Col(
-                            dupont_ratios_graph(),
-                        ),
+                        dbc.Col(sankey_diagam(), width=5),
+                        dbc.Col(dupont_ratios_graph(), width=5),
                     ],
-                    style={
-                        "height": "300px",
-                    },
+                    justify="center",
                 ),
                 dbc.Row(
                     [
                         dbc.Col(
                             asset_structure_graph(),
+                            width=5,
                         ),
                         dbc.Col(
                             breakdown_revenue_graph(),
+                            width=5,
                         ),
                     ],
-                    style={
-                        "height": "300px",
-                    },
+                    justify="center",
+                    className="row-2",
                 ),
             ],
-            style={
-                # "margin-left": f"{ELEMENT['sideBar']['width']}px",
-            },
-        )
+            gap=2,
+        ),
     ],
-    style={
-        "background-color": "#f2f2f2",
-        "position": "fixed",
-        "top": "0",
-        "right": "0",
-        "bottom": "0",
-        "max-width": "100%",
-    },
+    fluid=True,
+    className="dbc",
 )

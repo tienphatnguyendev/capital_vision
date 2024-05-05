@@ -11,7 +11,6 @@ LINE_GRAPH_NAME = ["Revenue", "Gross profit", "Expenses", "Dept Ratio"]
 QUOTATIONS = ["$", "$", "$", ""]
 MOCK_DATA = {"year": [2019, 2020, 2021, 2022], "value": [50, 40, 45, 55]}
 
-graph_style = {"margin-right": "10px", "background-color": "#000000"}
 
 column_elements = []
 for i in range(4):
@@ -33,12 +32,6 @@ for i in range(4):
 def header_container():
     return dbc.Container(
         [dbc.Row(column_elements)],
-        style={
-            "height": "100px",
-            "display": "flex",
-            "justify-content": "center",
-            "margin-top": "20px",
-        },
     )
 
 

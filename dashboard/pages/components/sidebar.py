@@ -121,6 +121,7 @@ def sidebar():
             "width": SIDE_BAR_WIDTH,
             "background-color": "#000000",
             "z-index": DEPTH["SIDE_BAR"],
+            "display": "none",
         },
     )
 
