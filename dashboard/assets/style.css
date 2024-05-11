@@ -1,63 +1,66 @@
-/* This creates a skinny side bar fixed to the left of the page */
-/* .sidebar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-  } */
-  
-  /* make sure the contents of the navlink don't wrap when navbar collapses */
-  /* .sidebar .nav-link {
-    width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
+.box_emissions {
+    background-color: #ffffff;
+    border-width: 2px;
+    justify-content: center;
+    border-radius: 0px;
+    box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 0.02);
   }
-   */
-  /* fix the width of the icons */
-  /* .sidebar .nav-link i {
-    width: 1rem;
-  }
-   */
-  /* hide the navlink labels by default */
-  /* .sidebar .nav-link span {
-    visibility: hidden;
-    opacity: 1;
-    transition: opacity 0.1s ease-in-out;
-  } */
-  
-  /* when the sidebar is hovered, reveal the labels */
-  /* .sidebar:hover .nav-link span {
-    visibility: visible;
-    opacity: 1;
-    color: black;
-  } */
-  
-  /* container for the sidebar header. make sure the contents don't wrap when
-   * the sidebar is collapsed.
-   */
-  /* .sidebar-header {
-    display: flex;
-    justify-content: left;
+
+  .center_graph{
+    justify-content: center;
     align-items: center;
-    overflow: hidden;
-    white-space: nowrap;
-  } */
-  
-  /* position the header relative to the logo and hide by default */
-  /* .sidebar-header h2 {
-    opacity: 0;
-    margin-left: 1rem;
-    margin-bottom: 0;
-    transition: opacity 0.1s ease-in-out;
-  } */
-  
-  /* reveal the header when the sidebar is toggled */
-  /* .sidebar:hover .sidebar-header h2 {
-    opacity: 1;
-  } */
-  
-  /* position the content relative to the collapsed sidebar */
-  .content {
-    margin-left: 6vw;
-    margin-right: 2rem;
+    display: flex;
   }
+
+  .full_card_body{
+    width: 100%;
+    background-color: rgba(255, 255, 255);
+  }
+
+  .line_graph_text{
+    color: #000000;
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-left: 4px;
+    font-family: 'Georgia', serif;
+  }
+
+  .line_title{
+    position: relative;
+    top:-9.5px;
+    font-size: 20px;
+  }
+
+  .line_value{
+    position: relative;
+    top: -18px;
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  .line_graph{
+    position: relative;
+    top:-15px
+  }
+
+  .layout_body {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0);
+  }
+
+  .card_header{
+    background-color: #ffffff;
+    color: #000000;
+    font-weight: bold;
+    font-family: 'Georgia', serif;
+    font-size: 30px;
+    border-width: 0px;
+  }
+
+
+  .row{
+    padding:5px 0px 5px 0px;
+  }
+
+  

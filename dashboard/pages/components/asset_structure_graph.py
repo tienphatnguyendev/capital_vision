@@ -1,47 +1,57 @@
 import plotly.graph_objects as go
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from pages.components.curved_panel import curved_panel
 import plotly.express as px
+import pandas as pd
 
 
 def asset_structure_graph():
-    data = dict(
-        character=[
-            "Eve",
-            "Cain",
-            "Seth",
-            "Enos",
-            "Noam",
-            "Abel",
-            "Awan",
-            "Enoch",
-            "Azura",
-        ],
-        parent=["", "Eve", "Eve", "Seth", "Seth", "Eve", "Eve", "Awan", "Eve"],
-        value=[10, 14, 12, 10, 2, 6, 6, 4, 4],
+    df = pd.DataFrame(
+        dict(
+            totalValue=["Total", "Total", "Total"],
+            asset=["Equity", "Liabilities", "Liabilities"],
+            liabilities=[None, "SL", "LL"],
+            values=[10, 3, 3],
+        )
     )
 
     fig = px.sunburst(
-        data,
-        names="character",
-        parents="parent",
-        values="value",
+        df,
+        path=["totalValue", "asset", "liabilities"],
+        values="values",
+        color="liabilities",
     )
 
-    fig.update_layout(showlegend=True, margin=dict(t=10, r=10, l=10, b=10))
+    fig.update_traces(
+        marker_colors=["#1BB4FA", "#2752EE", "#2752EE", "#01295F", "#ffffff"],
+        leaf_opacity=1,
+    )
+
+    fig.update_traces(
+        textfont=dict(
+            size=25,
+            color=["white", "white", "white", "white", "black"],
+            family="Georgia",
+        ),
+    )
+
+    fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
 
-    return curved_panel(
+    return dbc.Card(
         [
-            dcc.Graph(
-                figure=fig,
-                style={
-                    "width": "100%",
-                    "height": "100%",
-                },
+            dbc.CardHeader("Asset Structure", className="card_header"),
+            dbc.CardBody(
+                [
+                    dcc.Graph(
+                        figure=fig,
+                        # className="center_graph",
+                        style=dict(bottom="40px", position="relative"),
+                    )
+                ],
+                className="full_card_body",
             ),
         ],
-        "100%",
-        "100%",
+        color="light",
+        className="box_emissions",
     )

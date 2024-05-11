@@ -1,7 +1,8 @@
 import plotly.graph_objects as go
 import urllib, json
 from dash import dcc, html
-from pages.components.curved_panel import curved_panel
+from pages.constants.constants import SECOND_ROW_GRAPH_HEIGHT
+import dash_bootstrap_components as dbc
 
 
 def sankey_diagam():
@@ -47,19 +48,19 @@ def sankey_diagam():
         ]
     )
 
-    fig.update_layout(showlegend=True, margin=dict(t=5, r=5, l=5, b=5))
+    fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+    fig.update_layout(height=336)
 
-    return curved_panel(
+    return dbc.Card(
         [
-            dcc.Graph(
-                figure=fig,
-                style={
-                    "width": "100%",
-                    "height": "100%",
-                },
+            dbc.CardBody(
+                [
+                    dcc.Graph(figure=fig, className="fit_graph"),
+                ],
+                className="full_card_body",
             ),
         ],
-        "100%",
-        "100%",
+        color="light",
+        className="box_emissions",
     )

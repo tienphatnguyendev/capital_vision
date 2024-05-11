@@ -14,6 +14,5 @@ app = Dash(
 server = app.server
 app.layout = layout()
 
-
 if __name__ == "__main__":
     app.run_server(debug=True, dev_tools_hot_reload=True, port=8001)

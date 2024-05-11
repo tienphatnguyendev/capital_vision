@@ -1,7 +1,6 @@
 import plotly.graph_objects as go
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from pages.components.curved_panel import curved_panel
 import plotly.express as px
 
 
@@ -17,19 +16,20 @@ def breakdown_revenue_graph():
         height=400,
     )
 
-    fig.update_layout(showlegend=True, margin=dict(t=10, r=10, l=10, b=10))
+    fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
 
-    return curved_panel(
+    return dbc.Card(
         [
-            dcc.Graph(
-                figure=fig,
-                style={
-                    "width": "100%",
-                    "height": "100%",
-                },
+            dbc.CardBody(
+                [
+                    dcc.Graph(
+                        figure=fig,
+                    ),
+                ],
+                className="full_card_body",
             ),
         ],
-        "100%",
-        "100%",
+        color="light",
+        className="box_emissions",
     )

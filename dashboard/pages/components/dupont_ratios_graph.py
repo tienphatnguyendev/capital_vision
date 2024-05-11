@@ -1,7 +1,7 @@
 import plotly.graph_objects as go
 from dash import dcc, html
 import dash_bootstrap_components as dbc
-from pages.components.curved_panel import curved_panel
+from pages.constants.constants import SECOND_ROW_GRAPH_HEIGHT
 
 
 def dupont_ratios_graph():
@@ -56,20 +56,20 @@ def dupont_ratios_graph():
         )
     )
 
-    fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=10))
+    fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
     fig.update_layout(hovermode="x unified")
+    fig.update_layout(height=336)
 
-    return curved_panel(
+    return dbc.Card(
         [
-            dcc.Graph(
-                figure=fig,
-                style={
-                    "width": "100%",
-                    "height": "100%",
-                },
+            dbc.CardBody(
+                [
+                    dcc.Graph(figure=fig, className="fit_graph"),
+                ],
+                className="full_card_body",
             ),
         ],
-        "100%",
-        "100%",
+        color="light",
+        className="box_emissions",
     )

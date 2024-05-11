@@ -1,57 +1,63 @@
 import plotly.express as px
 import dash_bootstrap_components as dbc
 from dash import dcc, html
-import pandas as pd
 import plotly.graph_objects as go
+import pandas as pd
+
 
 GRAPH_WIDTH = 100
 GRAPH_HEIGHT = 70
 
 
 def line_graph(data_frame, graph_id, graph_value_id, name):
-    fig = px.line(data_frame, x="year", y="value", markers=True)
+    fig = go.Figure()
+
+    data = data_frame.to_dict("list")
+
+    x_values = data["year"]
+    y_values = data["value"]
+
+    fig.add_trace(
+        go.Scatter(
+            x=x_values,
+            y=y_values,
+            line=dict(color="#2752ee"),
+            marker=dict(color="#ffffff", size=5, line=dict(width=2, color="#2752ee")),
+        )
+    )
+
     fig.update_xaxes(visible=False, fixedrange=True)
     fig.update_yaxes(visible=False, fixedrange=True)
 
     fig.update_layout(annotations=[], overwrite=True)
     fig.update_layout(showlegend=False, margin=dict(t=0, l=0, b=0, r=0))
-    fig.update_layout(
-        width=150,
-        height=60,
-    )
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
+    fig.update_layout(height=GRAPH_HEIGHT)
 
-    style = {
-        "display": "block",
-        "background-color": "#ffffff",
-        "border-radius": "15px",
-        "box-shadow": "0 4px 8px 0 rgba(0, 0, 0, 0.02), 0 6px 20px 0 rgba(0, 0, 0, 0.019)",
-    }
-
-    return dbc.Container(
+    return dbc.Card(
         [
-            dcc.Graph(
-                figure=fig,
-                id=graph_id,
-            ),
-            html.P(
-                "$999",
-                style={
-                    "color": "black",
-                    "font-size": "30px",
-                    "text-align": "center",
-                },
-                id=graph_value_id,
-            ),
-            html.P(
-                name,
-                style={
-                    "color": "black",
-                    "font-size": "20px",
-                    "text-align": "center",
-                    "margin-top": "-20px",
-                },
-            ),
+            dbc.CardBody(
+                [
+                    html.P(
+                        name,
+                        className="line_graph_text line_title",
+                    ),
+                    html.P(
+                        "$2400.50",
+                        className="line_graph_text line_value",
+                        id=graph_value_id,
+                    ),
+                    dcc.Graph(
+                        figure=fig,
+                        id=graph_id,
+                        config=dict(displayModeBar=False),
+                        className="line_graph",
+                    ),
+                ],
+                className="full_card_body",
+                style=dict(height=f"{155}px"),
+            )
         ],
-        style=style,
+        color="light",
+        className="box_emissions",
     )
