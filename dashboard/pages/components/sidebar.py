@@ -7,10 +7,6 @@ from pages.constants.constants import ELEMENT
 
 SIDE_BAR_WIDTH = f"{ELEMENT['sideBar']['width']}px"
 
-COMMON_STYLE = {
-    "height": "53px",
-    "width": SIDE_BAR_WIDTH,
-}
 
 ICON_STYLE = {
     "position": "relative",
@@ -31,58 +27,31 @@ TEXT_STYLE = {
 }
 
 
-header = dbc.Container(
+header = dbc.Stack(
     [
-        DashIconify(
-            icon="ph:stack-light",
-            style={
-                "color": "#ffc336",
-                "scale": "1.5",
-                "margin-right": "10px",
-                "margin-left": "-5px",
-                "margin-top": "-5px",
-            },
-        ),
-        html.H5(
-            "Capital Vision",
-            style={
-                "color": "#ffffff",
-                "font-size": "20px",
-            },
-        ),
+        DashIconify(icon="ph:stack-light", style={"scale": "2"}),
+        html.P("Capital Vision", className="my-auto"),
     ],
-    style={
-        "display": "flex",
-        "align-items": "center",
-        "justify-content": "start",
-        "height": "50px",
-        "width": SIDE_BAR_WIDTH,
-        "padding": "0 30px",
-        "position": "absolute",
-        "top": "35px",
-    },
+    direction="horizontal",
+    gap=3,
 )
 
 
 def content(icon_name, name, page_name, id):
     return dbc.NavLink(
         [
-            dbc.Container(
+            dbc.Stack(
                 [
                     DashIconify(
                         icon=icon_name,
-                        style=ICON_STYLE,
                     ),
                     html.P(
                         name,
-                        style=TEXT_STYLE,
+                        className="my-auto",
                     ),
                 ],
-                style={
-                    "height": "50px",
-                    "width": SIDE_BAR_WIDTH,
-                    "position": "relative",
-                },
+                direction="horizontal",
+                gap=3,
             )
         ],
         id=f"sidebar-block-{id}",
@@ -94,35 +63,19 @@ def content(icon_name, name, page_name, id):
 def generate_row(content):
     return dbc.Row(
         [content],
-        style=COMMON_STYLE,
+        justify="center",
     )
 
 
 def sidebar():
     return dbc.Container(
         [
-            dbc.Row(
-                [header],
-                style={
-                    "width": SIDE_BAR_WIDTH,
-                    "height": "95px",
-                },
-            ),
+            dbc.Row([header], align="center", className="mt-2 ml-0"),
             generate_row(content("lucide:home", "Home", "/", 1)),
             generate_row(content("ant-design:stock-outlined", "Stock", "/stock", 2)),
             generate_row(content("mdi:about-circle-outline", "About", "/about", 3)),
         ],
         className="sidebar",
-        style={
-            "position": "fixed",
-            "top": "0",
-            "left": "0",
-            "bottom": "0",
-            "width": SIDE_BAR_WIDTH,
-            "background-color": "#000000",
-            "z-index": DEPTH["SIDE_BAR"],
-            "display": "none",
-        },
     )
 
 

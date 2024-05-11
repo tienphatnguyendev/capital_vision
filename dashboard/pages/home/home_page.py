@@ -1,7 +1,7 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import html
-from pages.components.header_graph import header_container
+from pages.components.header_graph import header_graphs
 from pages.components.dupont_ratios_graph import dupont_ratios_graph
 from pages.components.sankey_graph import sankey_diagam
 from pages.components.breakdown_revenue_graph import breakdown_revenue_graph
@@ -11,32 +11,21 @@ dash.register_page(__name__, path="/")
 
 layout = dbc.Container(
     [
-        dbc.Stack(
+        dbc.Row([html.P("Navbar")], style={"height": "70px"}),
+        dbc.Row(
+            header_graphs(),
+            className="g-2 row",
+        ),
+        dbc.Row(
             [
-                dbc.Row(header_container(), justify="center"),
-                dbc.Row(
-                    [
-                        dbc.Col(sankey_diagam(), width=5),
-                        dbc.Col(dupont_ratios_graph(), width=5),
-                    ],
-                    justify="center",
+                dbc.Col(
+                    asset_structure_graph(),
                 ),
-                dbc.Row(
-                    [
-                        dbc.Col(
-                            asset_structure_graph(),
-                            width=5,
-                        ),
-                        dbc.Col(
-                            breakdown_revenue_graph(),
-                            width=5,
-                        ),
-                    ],
-                    justify="center",
-                    className="row-2",
+                dbc.Col(
+                    breakdown_revenue_graph(),
                 ),
             ],
-            gap=2,
+            className="g-2 row",
         ),
     ],
     fluid=True,

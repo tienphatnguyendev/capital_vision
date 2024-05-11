@@ -2,7 +2,6 @@ import plotly.graph_objects as go
 import urllib, json
 from dash import dcc, html
 from pages.constants.constants import SECOND_ROW_GRAPH_HEIGHT
-from pages.components.curved_panel import curved_panel
 import dash_bootstrap_components as dbc
 
 
@@ -51,16 +50,13 @@ def sankey_diagam():
 
     fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
     fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-    fig.update_layout(height=SECOND_ROW_GRAPH_HEIGHT)
+    fig.update_layout(height=336)
 
     return dbc.Card(
         [
-            dbc.CardHeader("Sankey Diagram"),
             dbc.CardBody(
                 [
-                    dcc.Graph(
-                        figure=fig,
-                    ),
+                    dcc.Graph(figure=fig, className="fit_graph"),
                 ],
                 className="full_card_body",
             ),
