@@ -3,7 +3,7 @@
     border-width: 2px;
     justify-content: center;
     border-radius: 0px;
-    box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 0.02);
+    /* box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 0.02); */
   }
 
   .center_graph{
@@ -58,9 +58,8 @@
     border-width: 0px;
   }
 
-
-  .row{
-    padding:5px 0px 5px 0px;
+  .custom_row {
+    margin: 5px 0px;
   }
 
   

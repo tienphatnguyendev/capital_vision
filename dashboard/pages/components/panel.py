@@ -1,16 +1,25 @@
 import dash_bootstrap_components as dbc
 
 
-def curved_panel(elements, width, height, custom_style={}):
-    style = {
-        "width": width,
-        "height": height,
-        "background-color": "#ffffff",
-        "border-radius": "15px",
-        "box-shadow": "0 4px 8px 0 rgba(0, 0, 0, 0.02), 0 6px 20px 0 rgba(0, 0, 0, 0.019)",
-    }
+class Panel(dbc.Card):
+    def __init__(
+        self,
+        title,
+        graph,
+    ):
+        children = [
+            dbc.CardHeader(
+                title,
+                className="card_header",
+            ),
+            dbc.CardBody(
+                graph,
+                className="full_card_body",
+            ),
+        ]
 
-    return dbc.Container(
-        elements,
-        style={**style, **custom_style},
-    )
+        super().__init__(
+            children,
+            color="light",
+            className="box_emissions",
+        )
