@@ -4,9 +4,9 @@ from pages.components.Panel import Panel
 
 
 class DupontRatiosGraph(Panel):
-    def __init__(self):
+    def __init__(self, height):
         self.init_graph()
-        super().__init__("Dupont Ratios", [self.graph])
+        super().__init__("Dupont Ratios", [self.graph], height)
 
     def init_graph(self):
         fig = go.Figure()
@@ -63,7 +63,6 @@ class DupontRatiosGraph(Panel):
         fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
         fig.update_layout(hovermode="x unified")
-        fig.update_layout(height=336)
 
         self.fig = fig
-        self.graph = dcc.Graph(figure=fig)
+        self.graph = dcc.Graph(figure=fig, style=dict(height="100%"))
