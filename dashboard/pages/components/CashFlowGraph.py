@@ -10,7 +10,6 @@ class CashFlowGraph(Panel):
         super().__init__("Cash Flow", [self.graph], height)
 
     def init_graph(self):
-
         labels = [
             "Operating Revenue1",
             "Other Revenue",
@@ -53,25 +52,53 @@ class CashFlowGraph(Panel):
             "Operating Revenue2": 17,
         }
 
+        profit_color = "#429f28"
+        expense_color = "#d03d37"
+        revenue = "#ff9800"
+
+        profit_link_color = "#a0cc99"
+        expense_link_color = "#e3a4a3"
+        revenue_link_color = "#f8cb85"
+
         node_colors = [
-            "#ff0000",
-            "#ff4000",
-            "#ff8000",
-            "#ffbf00",
-            "#ffff00",
-            "#bfff00",
-            "#80ff00",
-            "#40ff00",
-            "#00ff00",
-            "#00ff40",
-            "#00ff80",
-            "#00ffbf",
-            "#00ffff",
-            "#00bfff",
-            "#0080ff",
-            "#0040ff",
-            "#0000ff",
-            "#4000ff",
+            revenue,
+            revenue,
+            revenue,
+            profit_color,
+            profit_color,
+            expense_color,
+            expense_color,
+            expense_color,
+            expense_color,
+            profit_color,
+            profit_color,
+            profit_color,
+            expense_color,
+            expense_color,
+            revenue,
+            expense_color,
+            profit_color,
+            revenue,
+        ]
+
+        link_colors = [
+            revenue_link_color,
+            revenue_link_color,
+            profit_link_color,
+            profit_link_color,
+            expense_link_color,
+            revenue_link_color,
+            expense_link_color,
+            expense_link_color,
+            expense_link_color,
+            profit_link_color,
+            expense_link_color,
+            profit_link_color,
+            expense_link_color,
+            profit_link_color,
+            profit_link_color,
+            revenue_link_color,
+            expense_link_color,
         ]
 
         source_indices = [
@@ -116,6 +143,48 @@ class CashFlowGraph(Panel):
 
         values = [8, 16, 14, 10, 8, 6, 4, 2, 2, 6, 4, 4, 2, 2, 2, 2, 2]
 
+        position_x = [
+            0.02,
+            0.02,
+            0.15,
+            0.3,
+            0.3,
+            0.5,
+            0.98,
+            0.98,
+            0.98,
+            0.7,
+            0.98,
+            0.5,
+            0.5,
+            0.98,
+            0.98,
+            0.98,
+            0.98,
+            0.98,
+        ]
+
+        position_y = [
+            0.88,
+            0.38,
+            0.59,
+            0.35,
+            0.85,
+            0.45,
+            0.3,
+            0.4,
+            0.5,
+            0.65,
+            0.6,
+            0.68,
+            0.88,
+            0.78,
+            0.87,
+            0.95,
+            0.7,
+            0.1,
+        ]
+
         fig = go.Figure(
             data=[
                 go.Sankey(
@@ -123,54 +192,17 @@ class CashFlowGraph(Panel):
                         pad=15,
                         thickness=20,
                         label=list(node_indices.keys()),
-                        color="grey",
-                        x=[
-                            0.02,
-                            0.02,
-                            0.15,
-                            0.3,
-                            0.3,
-                            0.5,
-                            0.98,
-                            0.98,
-                            0.98,
-                            0.7,
-                            0.98,
-                            0.5,
-                            0.5,
-                            0.98,
-                            0.98,
-                            0.98,
-                            0.98,
-                            0.98,
-                        ],
-                        y=[
-                            0.88,
-                            0.38,
-                            0.59,
-                            0.35,
-                            0.85,
-                            0.45,
-                            0.3,
-                            0.4,
-                            0.5,
-                            0.65,
-                            0.6,
-                            0.68,
-                            0.88,
-                            0.78,
-                            0.87,
-                            0.95,
-                            0.7,
-                            0.1,
-                        ],
+                        color=node_colors,
+                        line=dict(width=0),
+                        x=position_x,
+                        y=position_y,
                     ),
                     link=dict(
                         source=source_indices,
                         target=target_indices,
                         value=values,
                         label=labels,
-                        color=node_colors,
+                        color=link_colors,
                     ),
                 )
             ]

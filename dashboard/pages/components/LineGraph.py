@@ -42,9 +42,9 @@ class LineGraph(dbc.Card):
             go.Scatter(
                 x=x_values,
                 y=y_values,
-                line=dict(color="#2752ee"),
+                line=dict(color="#429F28"),
                 marker=dict(
-                    color="#ffffff", size=5, line=dict(width=2, color="#2752ee")
+                    color="#ffffff", size=5, line=dict(width=2, color="#429F28")
                 ),
             )
         )

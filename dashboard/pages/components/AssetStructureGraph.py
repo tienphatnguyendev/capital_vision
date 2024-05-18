@@ -27,9 +27,9 @@ class AssetStructureGraph(Panel):
         )
 
         fig.update_traces(
-            marker_colors=["#1BB4FA", "#2752EE", "#2752EE", "#E44B05", "#ffffff"],
+            marker_colors=["#429F28", "#E3A4A3", "#E3A4A3", "#D03D37", "#ffffff"],
             leaf_opacity=1,
-            marker=dict(line=dict(color="#ffffff", width=2)),
+            marker=dict(line=dict(color="#ffffff", width=1)),
         )
 
         fig.update_traces(

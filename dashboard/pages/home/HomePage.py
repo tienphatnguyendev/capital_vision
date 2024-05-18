@@ -1,6 +1,8 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import html
+from pages.components.CashFlowFallGraph import CashFlowFallGraph
+from pages.components.DeptEquityGraph import DeptEquityGraph
 from pages.components.DupontRatiosGraph import DupontRatiosGraph
 from pages.components.CashFlowGraph import CashFlowGraph
 from pages.components.FirstGraphsRow import FirstGraphsRow
@@ -11,7 +13,7 @@ class HomePage:
     def __init__(self):
         self.layout = dbc.Container(
             [
-                dbc.Row([html.P("Navbar")], style={"height": "6vh"}),
+                dbc.Row([html.P("Navbar")], style={"height": "5vh"}),
                 FirstGraphsRow(height=30),
                 dbc.Row(
                     [
@@ -24,12 +26,12 @@ class HomePage:
                     [
                         dbc.Col(DupontRatiosGraph(height=29), width=4),
                         dbc.Col(
-                            BreakdownRevenueGraph(
+                            DeptEquityGraph(
                                 height=29,
                             ),
                             width=4,
                         ),
-                        dbc.Col(CashFlowGraph(height=29), width=4),
+                        dbc.Col(CashFlowFallGraph(height=29), width=4),
                     ],
                     className="g-2 custom_row",
                 ),

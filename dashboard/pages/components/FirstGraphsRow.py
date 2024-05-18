@@ -2,8 +2,7 @@ import dash
 from dash import html
 import pandas as pd
 import dash_bootstrap_components as dbc
-from pages.components.DupontRatiosGraph import DupontRatiosGraph
-from pages.components.CashFlowGraph import CashFlowGraph
+from pages.components.HistoryPriceGraph import HistoryPriceGraph
 from pages.components.AssetStructureGraph import AssetStructureGraph
 from pages.components.LineGraph import LineGraph
 
@@ -43,10 +42,10 @@ class FirstGraphsRow(dbc.Row):
                         style=dict(padding="1vh 0vh 0vh"),
                     ),
                 ],
-                width=4,
+                width=5,
             ),
-            dbc.Col([AssetStructureGraph(self.row_height)], width=4),
-            dbc.Col([AssetStructureGraph(self.row_height)], width=4),
+            dbc.Col([AssetStructureGraph(self.row_height)], width=3),
+            dbc.Col([HistoryPriceGraph(self.row_height)], width=4),
         ]
 
     def create_line_graphs(self):
