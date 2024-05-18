@@ -6,9 +6,9 @@ from pages.components.Panel import Panel
 
 
 class BreakdownRevenueGraph(Panel):
-    def __init__(self):
+    def __init__(self, height):
         self.init_graph()
-        super().__init__("Breakdown Revenue", [self.graph])
+        super().__init__("Breakdown Revenue", [self.graph], height)
 
     def init_graph(self):
         df = px.data.gapminder().query("continent == 'Oceania'")
@@ -19,11 +19,10 @@ class BreakdownRevenueGraph(Panel):
             hover_data=["lifeExp", "gdpPercap"],
             color="country",
             labels={"pop": "population of Canada"},
-            height=400,
         )
 
         fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
 
         self.fig = fig
-        self.graph = dcc.Graph(figure=fig)
+        self.graph = dcc.Graph(figure=fig, style=dict(height="100%"))

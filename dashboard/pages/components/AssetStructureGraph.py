@@ -5,9 +5,9 @@ from pages.components.Panel import Panel
 
 
 class AssetStructureGraph(Panel):
-    def __init__(self):
+    def __init__(self, height):
         self.init_graph()
-        super().__init__("Asset Structure", [self.graph])
+        super().__init__("Asset Structure", [self.graph], height=height)
 
     def init_graph(self):
         df = pd.DataFrame(
@@ -27,14 +27,13 @@ class AssetStructureGraph(Panel):
         )
 
         fig.update_traces(
-            marker_colors=["#1BB4FA", "#2752EE", "#2752EE", "#E44B05", "#ffffff"],
+            marker_colors=["#429F28", "#E3A4A3", "#E3A4A3", "#D03D37", "#ffffff"],
             leaf_opacity=1,
-            marker=dict(line=dict(color="#ffffff", width=2)),
+            marker=dict(line=dict(color="#ffffff", width=1)),
         )
 
         fig.update_traces(
             textfont=dict(
-                size=25,
                 color=["white", "white", "white", "white", "black"],
                 family="Georgia",
             ),
@@ -42,9 +41,9 @@ class AssetStructureGraph(Panel):
 
         fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-        fig.update_layout(height=513)
+
         self.fig = fig
         self.graph = dcc.Graph(
             figure=fig,
-            style=dict(position="relative", bottom="45px"),
+            style=dict(height="100%", margin="-4px 0px 0px"),
         )
