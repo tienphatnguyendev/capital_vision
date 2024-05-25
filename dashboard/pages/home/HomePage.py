@@ -2,12 +2,12 @@ import dash
 import dash_bootstrap_components as dbc
 from dash import html
 from pages.components.LeverageRatioGraph import LeverageRatioGraph
-from pages.components.CashFlowFallGraph import CashFlowFallGraph
+from pages.components.PayoutRatioGraph import PayoutRatioGraph
+from pages.components.AnualCashFlow import AnualCashFlow
 from pages.components.DeptEquityGraph import DeptEquityGraph
 from pages.components.DupontRatiosGraph import DupontRatiosGraph
-from pages.components.CashFlowGraph import CashFlowGraph
+from pages.components.BreakDownCashFlow import BreakDownCashFlow
 from pages.components.FirstGraphsRow import FirstGraphsRow
-from pages.components.BreakdownRevenueGraph import BreakdownRevenueGraph
 
 
 class HomePage:
@@ -18,8 +18,8 @@ class HomePage:
                 FirstGraphsRow(height=32),
                 dbc.Row(
                     [
-                        dbc.Col(LeverageRatioGraph(height=30), width=6),
-                        dbc.Col(BreakdownRevenueGraph(height=30), width=6),
+                        dbc.Col(BreakDownCashFlow(height=30), width=6),
+                        dbc.Col(PayoutRatioGraph(height=30), width=6),
                     ],
                     className="g-1 custom_row",
                 ),
@@ -32,7 +32,7 @@ class HomePage:
                             ),
                             width=4,
                         ),
-                        dbc.Col(CashFlowFallGraph(height=30), width=4),
+                        dbc.Col(AnualCashFlow(height=30), width=4),
                     ],
                     className="g-1 custom_row",
                 ),

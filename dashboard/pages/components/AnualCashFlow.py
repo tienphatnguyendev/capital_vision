@@ -4,7 +4,7 @@ from dash import dcc
 import random
 
 
-class CashFlowFallGraph(Panel):
+class AnualCashFlow(Panel):
     def __init__(self, height):
         self.init_graph()
         super().__init__("Cash", [self.graph], height)
