@@ -1,7 +1,10 @@
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
 import random
+
+COLORS = Colors()
 
 
 class PayoutRatioGraph(Panel):
@@ -17,14 +20,18 @@ class PayoutRatioGraph(Panel):
         for i in range(10):
             years.append(2019 + i)
 
-        fig = go.Figure()
+        fig = go.Figure(
+            layout=dict(
+                barcornerradius=12,
+            )
+        )
 
         fig.add_trace(
             go.Bar(
                 x=years,
                 y=payout,
                 name="Payout Dolloars",
-                marker=dict(color="#e3a4a2"),
+                marker=dict(color=COLORS.light_orange),
             )
         )
 
@@ -34,7 +41,7 @@ class PayoutRatioGraph(Panel):
                 y=dividend_percentage,
                 name="Dividend Percentage",
                 yaxis="y2",
-                marker=dict(color="#429f28"),
+                marker=dict(color=COLORS.red),
             )
         )
 
@@ -49,6 +56,9 @@ class PayoutRatioGraph(Panel):
                 overlaying="y",
             ),
         )
+
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
 
         fig.update_layout(showlegend=False, margin=dict(t=0, r=0, l=0, b=0))
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")

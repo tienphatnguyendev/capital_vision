@@ -5,7 +5,6 @@ from pages.components.LeverageRatioGraph import LeverageRatioGraph
 from pages.components.PayoutRatioGraph import PayoutRatioGraph
 from pages.components.AnualCashFlow import AnualCashFlow
 from pages.components.DeptEquityGraph import DeptEquityGraph
-from pages.components.DupontRatiosGraph import DupontRatiosGraph
 from pages.components.BreakDownCashFlow import BreakDownCashFlow
 from pages.components.FirstGraphsRow import FirstGraphsRow
 
@@ -25,7 +24,7 @@ class HomePage:
                 ),
                 dbc.Row(
                     [
-                        dbc.Col(CashFlowGraph(height=30), width=4),
+                        dbc.Col(LeverageRatioGraph(height=30), width=4),
                         dbc.Col(
                             DeptEquityGraph(
                                 height=30,
