@@ -5,6 +5,7 @@ import dash_bootstrap_components as dbc
 from pages.components.HistoryPriceGraph import HistoryPriceGraph
 from pages.components.AssetStructureGraph import AssetStructureGraph
 from pages.components.LineGraph import LineGraph
+import random
 
 LINE_GRAPH_NAME = ["Revenue", "Gross profit", "Expenses", "Dept Ratio"]
 QUOTATIONS = ["$", "$", "$", ""]
@@ -18,7 +19,7 @@ class FirstGraphsRow(dbc.Row):
 
         super().__init__(
             self.elements,
-            className="g-2 custom_row",
+            className="g-1 custom_row",
         )
 
     def create(self):
@@ -31,15 +32,15 @@ class FirstGraphsRow(dbc.Row):
                             self.line_graphs[0],
                             self.line_graphs[1],
                         ],
-                        className="g-2",
+                        className="g-1",
                     ),
                     dbc.Row(
                         [
                             self.line_graphs[2],
                             self.line_graphs[3],
                         ],
-                        className="g-2",
-                        style=dict(padding="1vh 0vh 0vh"),
+                        className="g-1",
+                        style=dict(margin="0.2vh 0vh 0vh"),
                     ),
                 ],
                 width=5,
@@ -52,12 +53,24 @@ class FirstGraphsRow(dbc.Row):
         self.line_graphs = []
 
         for i in range(4):
-            data_frame = pd.DataFrame(MOCK_DATA)
+            random_years = []
+
+            for j in range(4):
+                random_years.append(2020 + j)
+
+            random_values = random.choices(range(50, 100), k=4)
+
+            data = {
+                "year": random_years,
+                "value": random_values,
+            }
+
+            data_frame = pd.DataFrame(data)
             self.line_graphs.append(
                 dbc.Col(
                     [
                         LineGraph(
-                            data_frame, LINE_GRAPH_NAME[i], self.row_height / 2 - 0.5
+                            data_frame, LINE_GRAPH_NAME[i], self.row_height / 2 - 0.4
                         ),
                     ],
                     width=6,

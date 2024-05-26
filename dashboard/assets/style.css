@@ -1,66 +1,77 @@
+.box_emissions,
+.card_header,
+.full_card_body {
+  background-color: #f8f8f8;
+  border: 0 solid #f8f8f8;
+  box-sizing: border-box;
+}
+
+* {
+  font-family: Georgia;
+}
+
 .box_emissions {
-    background-color: #ffffff;
-    border-width: 1px;
-    justify-content: center;
-    border-radius: 0px;
-    /* box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 0.02); */
-  }
+  justify-content: center;
+  border-radius: 10px;
+  /* box-shadow: 2px 3px 0px 0px rgba(0, 0, 0, 0.02); */
+}
 
-  .center_graph{
-    justify-content: center;
-    align-items: center;
-    display: flex;
-  }
+.full_card_body {
+  border-radius: 0px 0px 10px 10px;
+}
 
-  .full_card_body{
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255);
-  }
+.full_border_card_body {
+  border-radius: 10px;
+}
 
-  .line_graph_text{
-    color: #000000;
-    margin-bottom: auto;
-    margin-top: auto;
-    margin-left: 4px;
-    font-family: 'Georgia', serif;
-  }
+.center_graph {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
 
-  .line_title{
-    position: relative;
-    top:-9.5px;
-    font-size: 20px;
-  }
+.full_card_body {
+  width: 100%;
+  height: 100%;
+}
 
-  .line_value{
-    position: relative;
-    top: -15px;
-    font-size: 32px;
-    font-weight: bold;
-  }
+.line_graph_text {
+  color: #000000;
+  margin-bottom: auto;
+  margin-top: auto;
+  margin-left: 4px;
+}
 
-  .line_graph{
-    position: relative;
-    top:-15px
-  }
+.line_title {
+  position: relative;
+  top: -9.5px;
+  font-size: 20px;
+}
 
-  .layout_body {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0);
-  }
+.line_value {
+  position: relative;
+  top: -15px;
+  font-size: 32px;
+  font-weight: bold;
+}
 
-  .card_header{
-    background-color: #ffffff;
-    color: #000000;
-    font-weight: bold;
-    font-family: 'Georgia', serif;
-    font-size: 26px;
-    border-width: 0px;
-  }
+.line_graph {
+  position: relative;
+  top: -15px;
+}
 
-  .custom_row {
-    margin: 0.5vh 0vh;
-  }
+.layout_body {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0);
+}
 
-  
+.card_header {
+  color: #000000;
+  font-weight: bold;
+  font-size: 26px;
+}
+
+.custom_row {
+  margin: 0.1vh 0vh;
+}

@@ -59,6 +59,6 @@ class CashFlowFallGraph(Panel):
                 else:
                     labels.append(f"q{j}")
                     measures.append("relative")
-                    values.append(random.randint(-100, 100))
+                    values.append(random.randint(-50, 50))
 
         return years, labels, measures, values
