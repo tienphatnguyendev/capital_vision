@@ -6,7 +6,7 @@ from pages.components.Panel import Panel
 COLORS = Colors()
 
 
-class CashFlowGraph(Panel):
+class BreakDownCashFlow(Panel):
     def __init__(self, height):
         self.init_graph()
         super().__init__("Cash Flow", [self.graph], height)

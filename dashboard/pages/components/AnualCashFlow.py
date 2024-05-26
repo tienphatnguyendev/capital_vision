@@ -4,10 +4,10 @@ from dash import dcc
 import random
 
 
-class CashFlowFallGraph(Panel):
+class AnualCashFlow(Panel):
     def __init__(self, height):
         self.init_graph()
-        super().__init__("Cash", [self.graph], height)
+        super().__init__("Anual Cash", [self.graph], height)
 
     def init_graph(self):
         years, labels, measures, values = self.get_random_data()
@@ -28,8 +28,11 @@ class CashFlowFallGraph(Panel):
                         "color": "#ff9800",
                     }
                 },
-            )
+            ),
         )
+
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
 
         fig.update_layout(showlegend=False, margin=dict(t=0, r=0, l=0, b=0))
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
@@ -37,6 +40,8 @@ class CashFlowFallGraph(Panel):
         fig.update_layout(
             waterfallgroupgap=0.05,
         )
+
+        fig.update_yaxes(dtick=100)
 
         self.fig = fig
         self.graph = dcc.Graph(
