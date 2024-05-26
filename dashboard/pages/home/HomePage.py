@@ -1,6 +1,7 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import html
+from pages.components.LeverageRatioGraph import LeverageRatioGraph
 from pages.components.CashFlowFallGraph import CashFlowFallGraph
 from pages.components.DeptEquityGraph import DeptEquityGraph
 from pages.components.DupontRatiosGraph import DupontRatiosGraph
@@ -14,31 +15,31 @@ class HomePage:
         self.layout = dbc.Container(
             [
                 dbc.Row([html.P("Navbar")], style={"height": "5vh"}),
-                FirstGraphsRow(height=30),
+                FirstGraphsRow(height=32),
                 dbc.Row(
                     [
-                        dbc.Col(CashFlowGraph(height=30), width=6),
+                        dbc.Col(LeverageRatioGraph(height=30), width=6),
                         dbc.Col(BreakdownRevenueGraph(height=30), width=6),
                     ],
-                    className="g-2 custom_row",
+                    className="g-1 custom_row",
                 ),
                 dbc.Row(
                     [
-                        dbc.Col(DupontRatiosGraph(height=29), width=4),
+                        dbc.Col(CashFlowGraph(height=30), width=4),
                         dbc.Col(
                             DeptEquityGraph(
-                                height=29,
+                                height=30,
                             ),
                             width=4,
                         ),
-                        dbc.Col(CashFlowFallGraph(height=29), width=4),
+                        dbc.Col(CashFlowFallGraph(height=30), width=4),
                     ],
-                    className="g-2 custom_row",
+                    className="g-1 custom_row",
                 ),
             ],
             fluid=True,
             className="dbc",
-            style={"background-color": "#f2f2f2"},
+            style={"background-color": "#ffffff", "height": "100vh"},
         )
 
 

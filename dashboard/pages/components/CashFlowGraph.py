@@ -1,7 +1,9 @@
 import plotly.graph_objects as go
-import urllib, json
 from dash import dcc
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
+
+COLORS = Colors()
 
 
 class CashFlowGraph(Panel):
@@ -52,13 +54,13 @@ class CashFlowGraph(Panel):
             "Operating Revenue2": 17,
         }
 
-        profit_color = "#429f28"
-        expense_color = "#d03d37"
-        revenue = "#ff9800"
+        profit_color = COLORS.green
+        expense_color = COLORS.red
+        revenue = COLORS.orange
 
-        profit_link_color = "#a0cc99"
-        expense_link_color = "#e3a4a3"
-        revenue_link_color = "#f8cb85"
+        profit_link_color = COLORS.light_green
+        expense_link_color = COLORS.light_red
+        revenue_link_color = COLORS.light_orange
 
         node_colors = [
             revenue,

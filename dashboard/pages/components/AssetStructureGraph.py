@@ -1,7 +1,10 @@
 from dash import dcc
 import plotly.express as px
 import pandas as pd
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
+
+COLORS = Colors()
 
 
 class AssetStructureGraph(Panel):
@@ -27,7 +30,13 @@ class AssetStructureGraph(Panel):
         )
 
         fig.update_traces(
-            marker_colors=["#429F28", "#E3A4A3", "#E3A4A3", "#D03D37", "#ffffff"],
+            marker_colors=[
+                COLORS.green,
+                COLORS.light_red,
+                COLORS.light_red,
+                COLORS.red,
+                "#ffffff",
+            ],
             leaf_opacity=1,
             marker=dict(line=dict(color="#ffffff", width=1)),
         )
@@ -46,4 +55,5 @@ class AssetStructureGraph(Panel):
         self.graph = dcc.Graph(
             figure=fig,
             style=dict(height="100%", margin="-4px 0px 0px"),
+            config=dict(displayModeBar=False),
         )

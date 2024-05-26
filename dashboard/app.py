@@ -5,7 +5,7 @@ from pages.index.AppLayout import AppLayout
 
 class App(Dash):
     def __init__(self):
-        external_stylesheets = [dbc.themes.CERULEAN]
+        external_stylesheets = [dbc.themes.LITERA]
         super().__init__(
             __name__,
             use_pages=True,

@@ -1,7 +1,11 @@
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 import plotly.graph_objects as go
 from dash import dcc
 import pandas as pd
+
+
+COLORS = Colors()
 
 
 class DeptEquityGraph(Panel):
@@ -63,19 +67,23 @@ class DeptEquityGraph(Panel):
                     font=dict(size=10),
                     orientation="h",
                 ),
+                barcornerradius=6,
             )
         )
 
+        medium_yellow = "#ffe966"
+        medium_green = "#66e675"
+
         colors = {
             "Company": {
-                "Equity": "#F6C619",
-                "Liabilities": "#FADD75",
-                "Assets": "#FADD75",
+                "Equity": medium_yellow,
+                "Liabilities": COLORS.light_yellow,
+                "Assets": COLORS.yellow,
             },
             "Sector": {
-                "Equity": "#9ED4B9",
-                "Liabilities": "#5EB88A",
-                "Assets": "#5EB88A",
+                "Equity": medium_green,
+                "Liabilities": COLORS.light_green,
+                "Assets": COLORS.green,
             },
         }
 
@@ -94,13 +102,14 @@ class DeptEquityGraph(Panel):
                     legendgrouptitle_text=t,
                     name=col,
                     marker_color=colors[t][col],
-                    marker_line=dict(width=2, color="#333"),
                     hovertemplate="%{y}<extra></extra>",
                 )
 
+        fig.update_xaxes(showgrid=False)
+        fig.update_yaxes(showgrid=False)
+
         fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-        fig.update_layout(hovermode="y unified")
         fig.update_xaxes(dtick=1)
 
         self.fig = fig
