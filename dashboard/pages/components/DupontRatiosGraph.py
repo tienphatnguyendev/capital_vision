@@ -60,11 +60,6 @@ class DupontRatiosGraph(Panel):
             )
         )
 
-        fig.update_xaxes(showgrid=False)
-        fig.update_yaxes(showgrid=False)
-
-        fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
-        fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
         fig.update_layout(hovermode="x unified")
 
         self.fig = fig
