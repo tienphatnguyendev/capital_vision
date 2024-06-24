@@ -1,3 +1,4 @@
+from pages.constants.constants import COLORS
 from pages.components.Panel import Panel
 import plotly.graph_objects as go
 from dash import dcc
@@ -21,27 +22,22 @@ class AnualCashFlow(Panel):
                 measure=measures,
                 y=values,
                 base=0,
-                decreasing={"marker": {"color": "#d03d37"}},
-                increasing={"marker": {"color": "#429f28"}},
+                decreasing={"marker": {"color": COLORS.red}},
+                increasing={"marker": {"color": COLORS.green}},
                 totals={
                     "marker": {
-                        "color": "#ff9800",
+                        "color": COLORS.orange,
                     }
                 },
             ),
         )
 
-        fig.update_xaxes(showgrid=False)
-        fig.update_yaxes(showgrid=False)
-
-        fig.update_layout(showlegend=False, margin=dict(t=0, r=0, l=0, b=0))
-        fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
         fig.update_traces(connector_visible=False)
         fig.update_layout(
-            waterfallgroupgap=0.05,
+            waterfallgroupgap=0.1,
         )
-
-        fig.update_yaxes(dtick=100)
+        fig.update_layout(yaxis_tickformat="$")
+        fig.update_xaxes(tickvals=labels, ticktext=years)
 
         self.fig = fig
         self.graph = dcc.Graph(
@@ -49,21 +45,27 @@ class AnualCashFlow(Panel):
         )
 
     def get_random_data(self):
+        labels_type = ["operate", "invest", "finance", "total"]
+
         years = []
-        labels = []
         measures = []
         values = []
+        labels = []
 
         for i in range(1, 11):
-            for j in range(1, 5):
+            for j in range(0, 4):
                 years.append(f"201{i}")
-                if j == 4:
-                    labels.append("total")
+                labels.append(labels_type[j])
+                if j == 3:
                     measures.append("total")
                     values.append(None)
                 else:
-                    labels.append(f"q{j}")
                     measures.append("relative")
-                    values.append(random.randint(-50, 50))
+                    values.append(
+                        random.randint(
+                            -10,
+                            10,
+                        )
+                    )
 
         return years, labels, measures, values

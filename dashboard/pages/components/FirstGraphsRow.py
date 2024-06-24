@@ -1,20 +1,19 @@
-import dash
-from dash import html
-import pandas as pd
+import random
+from dash import html, callback, Input, Output, State
 import dash_bootstrap_components as dbc
 from pages.components.HistoryPriceGraph import HistoryPriceGraph
 from pages.components.AssetStructureGraph import AssetStructureGraph
 from pages.components.LineGraph import LineGraph
-import random
 
 LINE_GRAPH_NAME = ["Revenue", "Gross profit", "Expenses", "Dept Ratio"]
-QUOTATIONS = ["$", "$", "$", ""]
+UNIT = ["$", "$", "$", ""]
 MOCK_DATA = {"year": [2019, 2020, 2021, 2022], "value": [50, 80, 40, 200]}
 
 
 class FirstGraphsRow(dbc.Row):
-    def __init__(self, height):
+    def __init__(self, height, app):
         self.row_height = height
+        self.app = app
         self.create()
 
         super().__init__(
@@ -60,17 +59,18 @@ class FirstGraphsRow(dbc.Row):
 
             random_values = random.choices(range(50, 100), k=4)
 
-            data = {
-                "year": random_years,
-                "value": random_values,
-            }
+            years = random_years
+            values = random_values
 
-            data_frame = pd.DataFrame(data)
             self.line_graphs.append(
                 dbc.Col(
                     [
                         LineGraph(
-                            data_frame, LINE_GRAPH_NAME[i], self.row_height / 2 - 0.4
+                            years,
+                            values,
+                            LINE_GRAPH_NAME[i],
+                            UNIT[i],
+                            self.row_height / 2 - 0.4,
                         ),
                     ],
                     width=6,

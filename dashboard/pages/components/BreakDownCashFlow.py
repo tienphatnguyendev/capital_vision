@@ -1,9 +1,7 @@
 import plotly.graph_objects as go
 from dash import dcc
-from pages.constants.constants import Colors
+from pages.constants.constants import COLORS
 from pages.components.Panel import Panel
-
-COLORS = Colors()
 
 
 class BreakDownCashFlow(Panel):
@@ -56,7 +54,7 @@ class BreakDownCashFlow(Panel):
 
         profit_color = COLORS.green
         expense_color = COLORS.red
-        revenue = COLORS.orange
+        revenue = COLORS.medium_orange
 
         profit_link_color = COLORS.light_green
         expense_link_color = COLORS.light_red

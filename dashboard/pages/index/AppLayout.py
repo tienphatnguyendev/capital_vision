@@ -3,8 +3,10 @@ import dash_bootstrap_components as dbc
 
 
 class AppLayout(dbc.Container):
-    def __init__(self):
+    def __init__(self, app):
+        self.app = app
         self.create()
+
         super().__init__(
             self.elements,
             fluid=True,

@@ -1,17 +1,15 @@
-from pages.constants.constants import Colors
+from pages.constants.constants import COLORS
 from pages.components.Panel import Panel
 import plotly.graph_objects as go
 from dash import dcc
 import pandas as pd
 
 
-COLORS = Colors()
-
-
 class DeptEquityGraph(Panel):
     def __init__(self, height):
         self.init_graph()
         super().__init__("Dept Equity", [self.graph], height=height)
+        self.fig.update_layout(showlegend=True)
 
     def init_graph(self):
         company_data = {
@@ -53,10 +51,8 @@ class DeptEquityGraph(Panel):
         fig = go.Figure(
             layout=go.Layout(
                 barmode="relative",
-                yaxis_showticklabels=False,
-                yaxis_showgrid=False,
                 yaxis2=go.layout.YAxis(
-                    visible=True,
+                    # visible=True,
                     matches="y",
                     overlaying="y",
                     anchor="x",
@@ -67,21 +63,17 @@ class DeptEquityGraph(Panel):
                     font=dict(size=10),
                     orientation="h",
                 ),
-                barcornerradius=6,
             )
         )
 
-        medium_yellow = "#ffe966"
-        medium_green = "#66e675"
-
         colors = {
             "Company": {
-                "Equity": medium_yellow,
-                "Liabilities": COLORS.light_yellow,
-                "Assets": COLORS.yellow,
+                "Equity": COLORS.medium_red,
+                "Liabilities": COLORS.light_red,
+                "Assets": COLORS.red,
             },
             "Sector": {
-                "Equity": medium_green,
+                "Equity": COLORS.medium_green,
                 "Liabilities": COLORS.light_green,
                 "Assets": COLORS.green,
             },
@@ -105,12 +97,8 @@ class DeptEquityGraph(Panel):
                     hovertemplate="%{y}<extra></extra>",
                 )
 
-        fig.update_xaxes(showgrid=False)
-        fig.update_yaxes(showgrid=False)
-
-        fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
-        fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
         fig.update_xaxes(dtick=1)
+        fig.update_layout(yaxis_tickformat="$")
 
         self.fig = fig
         self.graph = dcc.Graph(
