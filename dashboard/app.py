@@ -22,8 +22,9 @@ class App(Dash):
         self.run_server(debug=True, dev_tools_hot_reload=True, port=8001)
 
 
+app = App()
+server = app.server
+homePage = HomePage(app)
+
 if __name__ == "__main__":
-    app = App()
-    server = app.server
-    homePage = HomePage(app)
     app.start_app()
