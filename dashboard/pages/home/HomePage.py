@@ -1,7 +1,7 @@
 import dash
 import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-from dash import html
+from dash import dcc, callback, Input, Output
+from pages.components.Navbar import Navbar
 from pages.components.LeverageRatioGraph import LeverageRatioGraph
 from pages.components.PayoutRatioGraph import PayoutRatioGraph
 from pages.components.AnualCashFlow import AnualCashFlow
@@ -20,7 +20,7 @@ class HomePage:
                     interval=1000 // 60,
                     n_intervals=0,
                 ),
-                dbc.Row([html.P("Navbar")], style={"height": "5vh"}),
+                Navbar(app=self.app, height=5),
                 FirstGraphsRow(height=32, app=self.app),
                 dbc.Row(
                     [

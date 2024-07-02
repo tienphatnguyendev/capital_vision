@@ -15,7 +15,7 @@ class AssetStructureGraph(Panel):
             dict(
                 totalValue=["Total", "Total", "Total"],
                 asset=["Equity", "Liabilities", "Liabilities"],
-                liabilities=[None, "SL", "LL"],
+                liabilities=[None, "Short Term", "Long Term"],
                 values=[10, 3, 3],
             )
         )
@@ -42,12 +42,8 @@ class AssetStructureGraph(Panel):
         fig.update_traces(
             textfont=dict(
                 color=["white", "white", "white", "white", "black"],
-                family='Courier "Courier New"',
             ),
         )
-
-        fig.update_layout(showlegend=True, margin=dict(t=0, r=0, l=0, b=0))
-        fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
 
         fig.update_traces(
             hoverlabel=dict(
@@ -67,6 +63,6 @@ class AssetStructureGraph(Panel):
         self.fig = fig
         self.graph = dcc.Graph(
             figure=fig,
-            style=dict(height="100%", margin="-4px 0px 0px"),
+            style=dict(height="100%", margin="-10px 0px 0px"),
             config=dict(displayModeBar=False),
         )
