@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 
-FILE_PATH = "dashboard/models/banks-n-nonbanking.csv"
+FILE_PATH = "models/banks-n-nonbanking.csv"
 
 
 class FinancialMetrics:
