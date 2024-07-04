@@ -1,20 +1,26 @@
 import dash_bootstrap_components as dbc
-from dash import dcc
+from dash import dcc, callback, Input, Output, State
 import plotly.graph_objects as go
+from interfaces.index import IApp
 from pages.components.Label import Label
 from pages.constants.constants import COLORS
 
 
 class LineGraph(dbc.Card):
+    app:IApp
     _index = 0
 
-    def __init__(self, years, values, title, unit, height):
+    def __init__(self,app, years, values, title, unit, height):
+        self.app = app
         self.title_text = title
         self.unit = unit
         self.years = years
         self.values = values
 
         self._create()
+        self._enable_input()
+
+        LineGraph._index += 1
 
         body = dbc.CardBody(
             [
@@ -39,7 +45,6 @@ class LineGraph(dbc.Card):
         self._create_title()
         self._create_value_text()
         self._create_graph()
-        LineGraph._index += 1
 
     def _create_graph(self):
         fig = go.Figure()
@@ -88,6 +93,16 @@ class LineGraph(dbc.Card):
             style={"height": "50%", "marginTop": "10px"},
             id=f"line-graph-{self._index}",
         )
+
+    def _enable_input(self):
+        @callback(
+            Output(f"line-label-{self._index}", "figure"),
+            Input(f"dropdown", "value"),
+            allow_duplicate=True,
+        )
+        def display_hover_data(value):
+            revenues = self.app.databaseManager.get_revenue(4)
+
 
     def _create_title(self):
         self.title = dbc.FormText(

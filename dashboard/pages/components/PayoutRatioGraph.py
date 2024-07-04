@@ -8,7 +8,7 @@ import random
 class PayoutRatioGraph(Panel):
     def __init__(self, height):
         self.init_graph()
-        super().__init__("Payout Ratio", [self.graph], height)
+        super().__init__("Payout Dividend", [self.graph], height)
 
     def init_graph(self):
         payout = random.sample(range(50, 2000), 10)

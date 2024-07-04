@@ -1,16 +1,18 @@
 import random
-from dash import html, callback, Input, Output, State
 import dash_bootstrap_components as dbc
+from interfaces.index import IApp
 from pages.components.HistoryPriceGraph import HistoryPriceGraph
 from pages.components.AssetStructureGraph import AssetStructureGraph
 from pages.components.LineGraph import LineGraph
 
-LINE_GRAPH_NAME = ["Revenue", "Gross profit", "Expenses", "Dept Ratio"]
+LINE_GRAPH_NAME = ["Revenue", "Gross Income", "Expenses", "Liability"]
 UNIT = ["$", "$", "$", ""]
 MOCK_DATA = {"year": [2019, 2020, 2021, 2022], "value": [50, 80, 40, 200]}
 
 
 class FirstGraphsRow(dbc.Row):
+    app: IApp
+
     def __init__(self, height, app):
         self.row_height = height
         self.app = app
@@ -66,6 +68,7 @@ class FirstGraphsRow(dbc.Row):
                 dbc.Col(
                     [
                         LineGraph(
+                            self.app,
                             years,
                             values,
                             LINE_GRAPH_NAME[i],

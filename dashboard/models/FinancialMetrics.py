@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 
-FILE_PATH = "./models/asx200_data.csv"
+FILE_PATH = "./managers/constants/asx200_data.csv"
 
 
 class FinancialMetrics:

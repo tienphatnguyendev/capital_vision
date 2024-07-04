@@ -8,7 +8,7 @@ import random
 class LeverageRatioGraph(Panel):
     def __init__(self, height):
         self._init_graph()
-        super().__init__("Leverage Ratio", [self.graph], height)
+        super().__init__("Profitability", [self.graph], height)
 
     def _init_graph(self):
         years = []
