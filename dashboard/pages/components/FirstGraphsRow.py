@@ -16,12 +16,18 @@ class FirstGraphsRow(dbc.Row):
     def __init__(self, height, app):
         self.row_height = height
         self.app = app
+        self.line_graph_cols = []
+        self.line_graphs = []
         self.create()
 
         super().__init__(
             self.elements,
             className="g-1 custom_row",
         )
+
+    def enable_input(self):
+        for line_graph in self.line_graphs:
+            line_graph.enable_input()
 
     def create(self):
         self.create_line_graphs()
@@ -30,15 +36,15 @@ class FirstGraphsRow(dbc.Row):
                 [
                     dbc.Row(
                         [
-                            self.line_graphs[0],
-                            self.line_graphs[1],
+                            self.line_graph_cols[0],
+                            self.line_graph_cols[1],
                         ],
                         className="g-1",
                     ),
                     dbc.Row(
                         [
-                            self.line_graphs[2],
-                            self.line_graphs[3],
+                            self.line_graph_cols[2],
+                            self.line_graph_cols[3],
                         ],
                         className="g-1",
                         style=dict(margin="0.2vh 0vh 0vh"),
@@ -51,31 +57,18 @@ class FirstGraphsRow(dbc.Row):
         ]
 
     def create_line_graphs(self):
-        self.line_graphs = []
-
         for i in range(4):
-            random_years = []
+            line_graph = LineGraph(
+                self.app,
+                LINE_GRAPH_NAME[i],
+                UNIT[i],
+                self.row_height / 2 - 0.4,
+            )
 
-            for j in range(4):
-                random_years.append(2020 + j)
-
-            random_values = random.choices(range(50, 100), k=4)
-
-            years = random_years
-            values = random_values
-
-            self.line_graphs.append(
+            self.line_graphs.append(line_graph)
+            self.line_graph_cols.append(
                 dbc.Col(
-                    [
-                        LineGraph(
-                            self.app,
-                            years,
-                            values,
-                            LINE_GRAPH_NAME[i],
-                            UNIT[i],
-                            self.row_height / 2 - 0.4,
-                        ),
-                    ],
+                    [line_graph],
                     width=6,
                 )
             )

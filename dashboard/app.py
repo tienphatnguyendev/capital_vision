@@ -3,7 +3,6 @@ import dash_bootstrap_components as dbc
 from interfaces.index import IApp
 from managers.DatabaseManager import DatabaseManager
 from pages.home.HomePage import HomePage
-from models.FinancialMetrics import FinancialMetrics
 from pages.index.AppLayout import AppLayout
 
 
@@ -18,7 +17,7 @@ class App(IApp):
         self.layout = AppLayout(self)
 
         self.databaseManager = DatabaseManager()
-        self.databaseManager.set_symbol("MND")
+        self.databaseManager.set_symbol("ANZ")
 
         self.init_pages()
 

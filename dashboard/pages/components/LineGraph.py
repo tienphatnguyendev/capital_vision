@@ -1,25 +1,23 @@
 import dash_bootstrap_components as dbc
 from dash import dcc, callback, Input, Output, State
 import plotly.graph_objects as go
+from pages.components.CustomeFigure import CustomeFigure
 from interfaces.index import IApp
 from pages.components.Label import Label
 from pages.constants.constants import COLORS
 
 
 class LineGraph(dbc.Card):
-    app:IApp
+    app: IApp
     _index = 0
 
-    def __init__(self,app, years, values, title, unit, height):
+    def __init__(self, app, title, unit, height):
         self.app = app
         self.title_text = title
         self.unit = unit
-        self.years = years
-        self.values = values
+        self.index = LineGraph._index
 
         self._create()
-        self._enable_input()
-
         LineGraph._index += 1
 
         body = dbc.CardBody(
@@ -47,16 +45,50 @@ class LineGraph(dbc.Card):
         self._create_graph()
 
     def _create_graph(self):
-        fig = go.Figure()
+        figure = self._create_figure()
+        self.graph = dcc.Graph(
+            figure=figure,
+            config=dict(displayModeBar=False),
+            className="line_graph",
+            style={"height": "50%", "marginTop": "10px"},
+            id=f"line-graph-{self._index}",
+        )
+
+    def enable_input(self):
+        @callback(
+            Output(f"line-graph-{self.index}", "figure"),
+            Output(f"line-value-{self.index}", "children"),
+            Input(f"dropdown", "value"),
+            allow_duplicate=True,
+        )
+        def display_data(value):
+            value = self.update_value()
+            return self._create_figure(), value
+
+    def update_value(self):
+        revenues = self.app.databaseManager.get_revenue(4)
+        values = revenues["value"].tolist()[::-1]
+        return f"{self.unit}{float(values[-1]):.2f}"
+
+    def _create_figure(self):
+        revenues = self.app.databaseManager.get_revenue(4)
+        years = revenues["year"].tolist()[::-1]
+        values = revenues["value"].tolist()[::-1]
+
+        true_values = [float(value) for value in values]
+
+        self.value.children = f"{self.unit}{float(values[-1]):.2f}"
+
+        fig = CustomeFigure()
 
         color = COLORS.green
-        if self.values[0] < self.values[-1]:
+        if true_values[0] > true_values[-1]:
             color = COLORS.red
 
         fig.add_trace(
             go.Scatter(
-                x=self.years,
-                y=self.values,
+                x=years,
+                y=true_values,
                 line=dict(color=color),
                 marker=dict(color=color, size=6),
             )
@@ -70,7 +102,7 @@ class LineGraph(dbc.Card):
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
 
         fig.update_layout(
-            transition=dict(duration=2000, easing="cubic-in-out"),
+            transition=dict(duration=500, easing="cubic-in-out"),
         )
         fig.update_traces(
             hoverlabel=dict(
@@ -85,24 +117,7 @@ class LineGraph(dbc.Card):
             + "<b>%{y}</b><extra></extra>",
         )
 
-        self.fig = fig
-        self.graph = dcc.Graph(
-            figure=fig,
-            config=dict(displayModeBar=False),
-            className="line_graph",
-            style={"height": "50%", "marginTop": "10px"},
-            id=f"line-graph-{self._index}",
-        )
-
-    def _enable_input(self):
-        @callback(
-            Output(f"line-label-{self._index}", "figure"),
-            Input(f"dropdown", "value"),
-            allow_duplicate=True,
-        )
-        def display_hover_data(value):
-            revenues = self.app.databaseManager.get_revenue(4)
-
+        return fig
 
     def _create_title(self):
         self.title = dbc.FormText(
@@ -116,6 +131,7 @@ class LineGraph(dbc.Card):
             f"{self.unit}2400.5",
             className="line_graph_text line_value",
             style={"height": "30%"},
+            id=f"line-value-{self._index}",
         )
 
     def _createLable(self):

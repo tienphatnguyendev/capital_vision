@@ -13,6 +13,9 @@ from pages.components.FirstGraphsRow import FirstGraphsRow
 class HomePage:
     def __init__(self, app):
         self.app = app
+
+        self._create()
+
         self.layout = dbc.Container(
             [
                 dcc.Interval(
@@ -21,7 +24,7 @@ class HomePage:
                     n_intervals=0,
                 ),
                 Navbar(app=self.app, height=5),
-                FirstGraphsRow(height=32, app=self.app),
+                self.first_graphs_row,
                 dbc.Row(
                     [
                         dbc.Col(BreakDownCashFlow(height=30), width=6),
@@ -49,3 +52,11 @@ class HomePage:
         )
 
         dash.register_page(__name__, path="/", layout=self.layout)
+
+        self.enable_input()
+
+    def _create(self):
+        self.first_graphs_row = FirstGraphsRow(height=32, app=self.app)
+
+    def enable_input(self):
+        self.first_graphs_row.enable_input()

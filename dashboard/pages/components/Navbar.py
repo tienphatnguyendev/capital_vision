@@ -1,8 +1,7 @@
 from dash.development.base_component import Component
 import dash_bootstrap_components as dbc
-from dash import dcc, callback, Input, Output
+from dash import dcc, callback, Input, Output, State
 from interfaces.index import IApp
-from pages.constants.constants import Colors
 
 
 class Navbar(dbc.Row):
@@ -28,12 +27,14 @@ class Navbar(dbc.Row):
         @callback(
             Output("company_title", "children"),
             Input("dropdown", "value"),
+            State("company_title", "children"),
             allow_duplicate=True,
         )
-        def update_output(value):
-            self.app.databaseManager.set_symbol(value)
+        def update_output(value, old_value):
             if value is None:
-                return "Select a company"
+                return old_value
+
+            self.app.databaseManager.set_symbol(value)
             return f"{value}"
 
     def _create(self):
@@ -42,16 +43,20 @@ class Navbar(dbc.Row):
         self.add_invest_button()
 
     def add_company_title(self):
+        inital_company = self.app.databaseManager.symbol
+
         self.company_title = dbc.FormText(
-            "Westpac", id="company_title", className="company_title"
+            inital_company, id="company_title", className="company_title"
         )
         self.children.append(
             dbc.Col([self.company_title], className="select-control-col", width=3)
         )
 
     def add_dropdown_box(self):
+        company_names = self.app.databaseManager.get_all_company_names()
+
         self.dropdown = dcc.Dropdown(
-            ["New York City", "Montreal", "San Francisco"],
+            company_names,
             placeholder="Select a company",
             className="dropdown",
             id="dropdown",

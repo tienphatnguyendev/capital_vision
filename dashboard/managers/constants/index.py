@@ -1,5 +1,9 @@
-DATA_KEYS = {
-    "REVENUE": "total_revenue_excluding_interest",
+BANK = {
+    "REVENUE": "Total Operating Income",
+}
+
+NON_BANK = {
+    "REVENUE": "Interest Revenue",
     "EXPENSES": "operating_expenses",
     "GROSS_INCOME": "total_operating_income",
     "LIABILITY": "total_liabilities",
@@ -8,3 +12,5 @@ DATA_KEYS = {
     "SHORT_DEBT": "short_term_debt",
     "LONG_DEBT": "long_term_debt",
 }
+
+DATA_KEYS = {"BANK": BANK, "NON_BANK": NON_BANK}
