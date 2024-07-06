@@ -1,6 +1,7 @@
 import dash_bootstrap_components as dbc
 from dash import dcc, callback, Input, Output, State
 import plotly.graph_objects as go
+from pages.utils.number.format_number import format_number
 from pages.components.CustomeFigure import CustomeFigure
 from interfaces.index import IApp
 from pages.components.Label import Label
@@ -62,13 +63,14 @@ class LineGraph(dbc.Card):
             allow_duplicate=True,
         )
         def display_data(value):
-            value = self.update_value()
+            value = self.get_latest_value()
             return self._create_figure(), value
 
-    def update_value(self):
+    def get_latest_value(self):
         revenues = self.app.databaseManager.get_revenue(4)
         values = revenues["value"].tolist()[::-1]
-        return f"{self.unit}{float(values[-1]):.2f}"
+        format_value = format_number(float(values[-1]))
+        return f"{self.unit}{format_value}"
 
     def _create_figure(self):
         revenues = self.app.databaseManager.get_revenue(4)
@@ -77,7 +79,7 @@ class LineGraph(dbc.Card):
 
         true_values = [float(value) for value in values]
 
-        self.value.children = f"{self.unit}{float(values[-1]):.2f}"
+        self.value.children = self.get_latest_value()
 
         fig = CustomeFigure()
 
