@@ -3,6 +3,7 @@ from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
 import random
+from pages.components.CustomeFigure import CustomeFigure
 
 
 class LeverageRatioGraph(Panel):
@@ -27,7 +28,7 @@ class LeverageRatioGraph(Panel):
             round((net_profit[i] / total_assets[i]), 2) for i in range(9)
         ]
 
-        fig = go.Figure()
+        fig = CustomeFigure()
 
         fig.add_trace(
             go.Bar(

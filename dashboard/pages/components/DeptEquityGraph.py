@@ -1,3 +1,4 @@
+from pages.components.CustomeFigure import CustomeFigure
 from pages.constants.constants import COLORS
 from pages.components.Panel import Panel
 import plotly.graph_objects as go
@@ -48,11 +49,10 @@ class DeptEquityGraph(Panel):
 
         df = pd.concat([df_company, df_sector], axis=1, keys=["Company", "Sector"])
 
-        fig = go.Figure(
+        fig = CustomeFigure(
             layout=go.Layout(
                 barmode="relative",
                 yaxis2=go.layout.YAxis(
-                    # visible=True,
                     matches="y",
                     overlaying="y",
                     anchor="x",

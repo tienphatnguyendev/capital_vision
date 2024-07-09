@@ -1,6 +1,7 @@
 from dash import dcc
 import plotly.express as px
 import pandas as pd
+from pages.components.CustomeFigure import CustomeFigure
 from pages.constants.constants import COLORS
 from pages.components.Panel import Panel
 
@@ -58,9 +59,9 @@ class AssetStructureGraph(Panel):
             ),
         )
 
-        fig.update_layout()
+        fig.update_layout(margin=dict(t=0, l=0, r=0, b=0))
+        fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
 
-        self.fig = fig
         self.graph = dcc.Graph(
             figure=fig,
             style=dict(height="100%", margin="-10px 0px 0px"),

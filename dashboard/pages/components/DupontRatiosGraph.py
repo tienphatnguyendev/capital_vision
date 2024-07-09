@@ -1,5 +1,6 @@
 import plotly.graph_objects as go
 from dash import dcc
+from pages.components.CustomeFigure import CustomeFigure
 from pages.components.Panel import Panel
 
 
@@ -9,7 +10,7 @@ class DupontRatiosGraph(Panel):
         super().__init__("Dupont Ratios", [self.graph], height)
 
     def init_graph(self):
-        fig = go.Figure()
+        fig = CustomeFigure()
 
         fig.add_trace(
             go.Bar(

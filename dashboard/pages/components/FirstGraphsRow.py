@@ -1,13 +1,14 @@
 import random
 import dash_bootstrap_components as dbc
+from pages.behaviors.GetExpenseBehavior import GetExpenseBehavior
+from pages.behaviors.GetGrossIncomeBehavior import GetGrossIncomeBehavior
+from pages.utils.number.format_number import format_number
+from pages.behaviors.GetRevenueBehavior import GetRevenueBehavior
 from interfaces.index import IApp
 from pages.components.HistoryPriceGraph import HistoryPriceGraph
 from pages.components.AssetStructureGraph import AssetStructureGraph
 from pages.components.LineGraph import LineGraph
-
-LINE_GRAPH_NAME = ["Revenue", "Gross Income", "Expenses", "Liability"]
-UNIT = ["$", "$", "$", ""]
-MOCK_DATA = {"year": [2019, 2020, 2021, 2022], "value": [50, 80, 40, 200]}
+from dash import callback, Output, Input
 
 
 class FirstGraphsRow(dbc.Row):
@@ -27,7 +28,22 @@ class FirstGraphsRow(dbc.Row):
 
     def enable_input(self):
         for line_graph in self.line_graphs:
-            line_graph.enable_input()
+            self.enable_line_input(line_graph)
+
+    def enable_line_input(self, line_graph):
+        index = line_graph.index
+
+        @callback(
+            Output(f"line-graph-{index}", "figure"),
+            Output(f"line-value-{index}", "children"),
+            Input(f"dropdown", "value"),
+            allow_duplicate=True,
+        )
+        def display_data(value):
+            return (
+                line_graph.create_figure(),
+                f"{line_graph.unit}{format_number(line_graph.behavior.get_latest_value())}",
+            )
 
     def create(self):
         self.create_line_graphs()
@@ -57,18 +73,31 @@ class FirstGraphsRow(dbc.Row):
         ]
 
     def create_line_graphs(self):
-        for i in range(4):
-            line_graph = LineGraph(
-                self.app,
-                LINE_GRAPH_NAME[i],
-                UNIT[i],
-                self.row_height / 2 - 0.4,
-            )
+        height = self.row_height / 2 - 0.4
 
-            self.line_graphs.append(line_graph)
-            self.line_graph_cols.append(
-                dbc.Col(
-                    [line_graph],
-                    width=6,
-                )
-            )
+        revenue_line = LineGraph(
+            self.app, "Revenue", "$", height, 1, GetRevenueBehavior(self.app)
+        )
+        gross_income_line = LineGraph(
+            self.app, "Gross Income", "$", height, 2, GetGrossIncomeBehavior(self.app)
+        )
+        expenses_line = LineGraph(
+            self.app, "Expenses", "$", height, 3, GetGrossIncomeBehavior(self.app)
+        )
+        liability_line = LineGraph(
+            self.app, "Liability", "$", height, 4, GetRevenueBehavior(self.app)
+        )
+
+        self.line_graphs = [
+            revenue_line,
+            gross_income_line,
+            expenses_line,
+            liability_line,
+        ]
+
+        self.line_graph_cols = [
+            dbc.Col([revenue_line], width=6),
+            dbc.Col([gross_income_line], width=6),
+            dbc.Col([expenses_line], width=6),
+            dbc.Col([liability_line], width=6),
+        ]

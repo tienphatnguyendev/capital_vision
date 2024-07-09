@@ -1,9 +1,10 @@
 import dash_bootstrap_components as dbc
 import plotly.graph_objects as go
+from pages.components.CustomeFigure import CustomeFigure
 
 
 class Panel(dbc.Card):
-    fig: go.Figure
+    fig: CustomeFigure
 
     def __init__(self, title, graph, height=30):
         children = [

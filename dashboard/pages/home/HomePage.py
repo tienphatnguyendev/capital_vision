@@ -1,12 +1,12 @@
 import dash
 import dash_bootstrap_components as dbc
 from dash import dcc, callback, Input, Output
+from pages.components.BreakDownCashFlow import BreakDownCashFlow
 from pages.components.Navbar import Navbar
 from pages.components.LeverageRatioGraph import LeverageRatioGraph
 from pages.components.PayoutRatioGraph import PayoutRatioGraph
 from pages.components.AnualCashFlow import AnualCashFlow
 from pages.components.DeptEquityGraph import DeptEquityGraph
-from pages.components.BreakDownCashFlow import BreakDownCashFlow
 from pages.components.FirstGraphsRow import FirstGraphsRow
 
 

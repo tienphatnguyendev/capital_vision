@@ -3,6 +3,7 @@ from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
 import random
+from pages.components.CustomeFigure import CustomeFigure
 
 
 class PayoutRatioGraph(Panel):
@@ -18,7 +19,7 @@ class PayoutRatioGraph(Panel):
         for i in range(10):
             years.append(2019 + i)
 
-        fig = go.Figure()
+        fig = CustomeFigure()
 
         fig.add_trace(
             go.Bar(

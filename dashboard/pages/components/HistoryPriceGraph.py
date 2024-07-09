@@ -3,6 +3,7 @@ from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
 import yfinance as yf
+from pages.components.CustomeFigure import CustomeFigure
 
 
 class HistoryPriceGraph(Panel):
@@ -17,7 +18,7 @@ class HistoryPriceGraph(Panel):
         if df["Close"].iloc[-1] < df["Close"].iloc[0]:
             color = COLORS.medium_red
 
-        fig = go.Figure(
+        fig = CustomeFigure(
             go.Scatter(
                 x=df["Date"],
                 y=df["Close"],

@@ -1,3 +1,4 @@
+from pages.components.CustomeFigure import CustomeFigure
 from pages.constants.constants import COLORS
 from pages.components.Panel import Panel
 import plotly.graph_objects as go
@@ -13,7 +14,7 @@ class AnualCashFlow(Panel):
     def init_graph(self):
         years, labels, measures, values = self.get_random_data()
 
-        fig = go.Figure(
+        fig = CustomeFigure(
             go.Waterfall(
                 x=[
                     years,
