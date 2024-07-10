@@ -32,10 +32,11 @@ class Navbar(dbc.Row):
         )
         def update_output(value, old_value):
             if value is None:
-                return old_value
+                return self.app.databaseManager.company_name
 
-            self.app.databaseManager.set_symbol(value)
-            return f"{value}"
+            self.app.databaseManager.set_company_name(value)
+            name = self.app.databaseManager.company_name
+            return f"{name}"
 
     def _create(self):
         self.add_company_title()
@@ -46,10 +47,12 @@ class Navbar(dbc.Row):
         inital_company = self.app.databaseManager.symbol
 
         self.company_title = dbc.FormText(
-            inital_company, id="company_title", className="company_title"
+            inital_company,
+            id="company_title",
+            className="company_title",
         )
         self.children.append(
-            dbc.Col([self.company_title], className="select-control-col", width=3)
+            dbc.Col([self.company_title], width=3, style={"height": "100%"})
         )
 
     def add_dropdown_box(self):
@@ -61,9 +64,7 @@ class Navbar(dbc.Row):
             className="dropdown",
             id="dropdown",
         )
-        self.children.append(
-            dbc.Col([self.dropdown], className="select-control-col", width=6)
-        )
+        self.children.append(dbc.Col([self.dropdown], width=6))
 
     def add_invest_button(self):
         self.nav_button = dbc.Button(
@@ -76,6 +77,5 @@ class Navbar(dbc.Row):
             dbc.Col(
                 [self.nav_button],
                 width=3,
-                className="nav_button_col",
             )
         )

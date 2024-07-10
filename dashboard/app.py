@@ -17,7 +17,6 @@ class App(IApp):
         self.layout = AppLayout(self)
 
         self.databaseManager = DatabaseManager()
-        self.databaseManager.set_symbol("ANZ")
 
         self.init_pages()
 

@@ -2,7 +2,7 @@ import pandas as pd
 from managers.constants.index import DATA_KEYS
 
 
-FILE_PATH = "managers/data/banks-n-nonbanking.csv"
+FILE_PATH = "dashboard/managers/data/banks-n-nonbanking.csv"
 
 
 class DatabaseManager:
@@ -13,9 +13,14 @@ class DatabaseManager:
             by="year", ascending=False
         )
         self.symbol = ""
+        self.company_name = ""
 
-    def set_symbol(self, symbol):
-        self.symbol = symbol
+        name = "ANZ Group Holdings Limited"
+        self.set_company_name(name)
+
+    def set_company_name(self, company_name):
+        self.company_name = company_name
+        self.symbol = self.get_symbol()
 
         if self.is_banking():
             self.data_keys = DATA_KEYS["BANK"]
@@ -24,8 +29,14 @@ class DatabaseManager:
 
         return self
 
+    def get_symbol(self):
+        return self.data.query("company_name == @self.company_name")["code"].values[0]
+
+    def get_name(self):
+        return self.data.query("code == @self.symbol")["company_name"].values[0]
+
     def get_all_company_names(self):
-        return self.data["code"].unique()
+        return self.data["company_name"].unique()
 
     def get_revenue(self, y_range=4):
         return self._get_fin_metrics([self.data_keys["REVENUE"]], y_range)

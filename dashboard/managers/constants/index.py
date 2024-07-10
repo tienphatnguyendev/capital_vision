@@ -15,4 +15,7 @@ NON_BANK = {
     "LONG_DEBT": "long_term_debt",
 }
 
-DATA_KEYS = {"BANK": BANK, "NON_BANK": NON_BANK}
+DATA_KEYS = {
+    "BANK": BANK,
+    "NON_BANK": NON_BANK,
+}
