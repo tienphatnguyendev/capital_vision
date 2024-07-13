@@ -47,6 +47,9 @@ class DatabaseManager:
     def get_expenses(self, y_range=4):
         return self._get_fin_metrics([self.data_keys["EXPENSES"]], y_range)
 
+    def get_liability(self, y_range=4):
+        return self._get_fin_metrics([self.data_keys["LIABILITY"]], y_range)
+
     def is_banking(self):
         return self.data.query("code == @self.symbol")["industry"].values[0] == "Banks"
 

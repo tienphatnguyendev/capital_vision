@@ -9,7 +9,7 @@ import pandas as pd
 class DeptEquityGraph(Panel):
     def __init__(self, height):
         self.init_graph()
-        super().__init__("Dept Equity", [self.graph], height=height)
+        super().__init__("Financial Leverage", [self.graph], height=height)
         self.fig.update_layout(showlegend=True)
 
     def init_graph(self):

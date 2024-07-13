@@ -1,5 +1,5 @@
-import random
 import dash_bootstrap_components as dbc
+from pages.behaviors.GetLiabilityBehavior import GetLiabilityBehavior
 from pages.behaviors.GetExpenseBehavior import GetExpenseBehavior
 from pages.behaviors.GetGrossIncomeBehavior import GetGrossIncomeBehavior
 from pages.utils.number.format_number import format_number
@@ -82,10 +82,10 @@ class FirstGraphsRow(dbc.Row):
             self.app, "Gross Income", "$", height, 2, GetGrossIncomeBehavior(self.app)
         )
         expenses_line = LineGraph(
-            self.app, "Expenses", "$", height, 3, GetGrossIncomeBehavior(self.app)
+            self.app, "Expenses", "$", height, 3, GetExpenseBehavior(self.app)
         )
         liability_line = LineGraph(
-            self.app, "Liability", "$", height, 4, GetRevenueBehavior(self.app)
+            self.app, "Liability", "$", height, 4, GetLiabilityBehavior(self.app)
         )
 
         self.line_graphs = [

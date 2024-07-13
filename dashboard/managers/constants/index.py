@@ -1,14 +1,15 @@
 BANK = {
     "REVENUE": "Interest Income",
-    "GROSS_INCOME": "Total Operating Income",
-    "EXPENSES": "Operating Expenses",
+    "GROSS_INCOME": "PreTax Profit",
+    "EXPENSES": "Interest Expense",
+    "LIABILITY": "Total Liabilities",
 }
 
 NON_BANK = {
     "REVENUE": "Total Revenue Excluding Interest",
     "EXPENSES": "Operating Expenses",
-    "GROSS_INCOME": "Total Operating Income",
-    "LIABILITY": "total_liabilities",
+    "GROSS_INCOME": "EBITDA",
+    "LIABILITY": "Total Liabilities",
     "ASSETS": "total_assets",
     "EQUITY": "total_equity",
     "SHORT_DEBT": "short_term_debt",
