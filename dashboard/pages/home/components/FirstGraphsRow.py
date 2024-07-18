@@ -1,9 +1,9 @@
 import random
 from dash import html, callback, Input, Output, State
 import dash_bootstrap_components as dbc
-from pages.components.HistoryPriceGraph import HistoryPriceGraph
-from pages.components.AssetStructureGraph import AssetStructureGraph
-from pages.components.LineGraph import LineGraph
+from pages.home.components.HistoryPriceGraph import HistoryPriceGraph
+from pages.home.components.AssetStructureGraph import AssetStructureGraph
+from pages.home.components.LineGraph import LineGraph
 
 LINE_GRAPH_NAME = ["Revenue", "Gross profit", "Expenses", "Dept Ratio"]
 UNIT = ["$", "$", "$", ""]
@@ -18,7 +18,7 @@ class FirstGraphsRow(dbc.Row):
 
         super().__init__(
             self.elements,
-            className="g-1 custom_row",
+            className="g-2 custom_row",
         )
 
     def create(self):
@@ -31,15 +31,15 @@ class FirstGraphsRow(dbc.Row):
                             self.line_graphs[0],
                             self.line_graphs[1],
                         ],
-                        className="g-1",
+                        className="g-2",
                     ),
                     dbc.Row(
                         [
                             self.line_graphs[2],
                             self.line_graphs[3],
                         ],
-                        className="g-1",
-                        style=dict(margin="0.2vh 0vh 0vh"),
+                        className="g-2",
+                        style=dict(paddingTop="0.8vh"),
                     ),
                 ],
                 width=5,
