@@ -18,14 +18,14 @@ class Panel(dbc.Card):
                     "height": "80%",
                     "padding": "0px 16px",
                 },
-                className="full_card_body",
+                className="card_body",
             ),
         ]
 
         super().__init__(
             children,
             color="light",
-            className="box_emissions",
+            className="box_emissions bg-transparent",
             style=dict(
                 height=f"{height}vh",
             ),

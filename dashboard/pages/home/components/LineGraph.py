@@ -1,7 +1,6 @@
 import dash_bootstrap_components as dbc
 from dash import dcc
 import plotly.graph_objects as go
-from pages.components.Label import Label
 from pages.constants.constants import COLORS
 
 
@@ -25,13 +24,13 @@ class LineGraph(dbc.Card):
             style={
                 "padding-bottom": "0px",
             },
-            className="full_card_body full_border_card_body",
+            className="card_body full_border_card_body",
         )
 
         super().__init__(
             body,
             color="light",
-            className="box_emissions",
+            className="box_emissions bg-transparent",
             style=dict(height=f"{height}vh"),
         )
 
@@ -101,12 +100,4 @@ class LineGraph(dbc.Card):
             f"{self.unit}2400.5",
             className="line_graph_text line_value",
             style={"height": "30%"},
-        )
-
-    def _createLable(self):
-        self.lable = Label(
-            125,
-            40,
-            [dbc.FormText("Year: 2020"), dbc.FormText("Value: $2400.506")],
-            id=f"line-label-{self._index}",
         )
