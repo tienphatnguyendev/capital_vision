@@ -2,7 +2,7 @@ from dash import dcc
 import plotly.express as px
 import pandas as pd
 from pages.components.CustomeFigure import CustomeFigure
-from pages.constants.constants import COLORS
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 
 
@@ -30,10 +30,10 @@ class AssetStructureGraph(Panel):
 
         fig.update_traces(
             marker_colors=[
-                COLORS.green,
-                COLORS.light_red,
-                COLORS.light_red,
-                COLORS.red,
+                Colors.green,
+                Colors.light_red,
+                Colors.light_red,
+                Colors.red,
                 "#ffffff",
             ],
             leaf_opacity=1,

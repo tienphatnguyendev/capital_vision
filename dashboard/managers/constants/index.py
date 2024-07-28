@@ -1,19 +1,35 @@
+class DataKeys:
+    revenue = "REVENUE"
+    gross_income = "GROSS_INCOME"
+    expenses = "EXPENSES"
+    liability = "LIABILITY"
+    assets = "ASSETS"
+    equity = "EQUITY"
+    short_debt = "SHORT_DEBT"
+    long_debt = "LONG_DEBT"
+
+
+class StatementKeys:
+    profit_loss = "profit_n_loss"
+    balance_sheet = "balance_sheet"
+
+
 BANK = {
-    "REVENUE": "Interest Income",
-    "GROSS_INCOME": "PreTax Profit",
-    "EXPENSES": "Interest Expense",
-    "LIABILITY": "Total Liabilities",
+    DataKeys.revenue: "Interest Income",
+    DataKeys.gross_income: "PreTax Profit",
+    DataKeys.expenses: "Interest Expense",
+    DataKeys.liability: "Total Liabilities",
 }
 
 NON_BANK = {
-    "REVENUE": "Total Revenue Excluding Interest",
-    "EXPENSES": "Operating Expenses",
-    "GROSS_INCOME": "EBITDA",
-    "LIABILITY": "Total Liabilities",
-    "ASSETS": "total_assets",
-    "EQUITY": "total_equity",
-    "SHORT_DEBT": "short_term_debt",
-    "LONG_DEBT": "long_term_debt",
+    DataKeys.revenue: "Total Revenue Excluding Interest",
+    DataKeys.gross_income: "EBITDA",
+    DataKeys.expenses: "Operating Expenses",
+    DataKeys.liability: "Total Liabilities",
+    DataKeys.assets: "total_assets",
+    DataKeys.equity: "total_equity",
+    DataKeys.short_debt: "short_term_debt",
+    DataKeys.long_debt: "long_term_debt",
 }
 
 DATA_KEYS = {

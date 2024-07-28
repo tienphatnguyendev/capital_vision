@@ -1,12 +1,12 @@
 from pages.components.CustomeFigure import CustomeFigure
-from pages.constants.constants import COLORS
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 import plotly.graph_objects as go
 from dash import dcc
 import pandas as pd
 
 
-class DeptEquityGraph(Panel):
+class DebtEquityGraph(Panel):
     def __init__(self, height):
         self.init_graph()
         super().__init__("Financial Leverage", [self.graph], height=height)
@@ -68,14 +68,14 @@ class DeptEquityGraph(Panel):
 
         colors = {
             "Company": {
-                "Equity": COLORS.medium_red,
-                "Liabilities": COLORS.light_red,
-                "Assets": COLORS.red,
+                "Equity": Colors.medium_red,
+                "Liabilities": Colors.light_red,
+                "Assets": Colors.red,
             },
             "Sector": {
-                "Equity": COLORS.medium_green,
-                "Liabilities": COLORS.light_green,
-                "Assets": COLORS.green,
+                "Equity": Colors.medium_green,
+                "Liabilities": Colors.light_green,
+                "Assets": Colors.green,
             },
         }
 

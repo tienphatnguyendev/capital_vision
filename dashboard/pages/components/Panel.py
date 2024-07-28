@@ -25,7 +25,6 @@ class Panel(dbc.Card):
 
         super().__init__(
             children,
-            color="light",
             className="box_emissions bg-transparent",
             style=dict(
                 height=f"{height}vh",

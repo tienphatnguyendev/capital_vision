@@ -1,4 +1,4 @@
-from pages.constants.constants import COLORS
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
@@ -14,9 +14,9 @@ class HistoryPriceGraph(Panel):
     def init_graph(self):
         df = self.get_mock_prices("BHP.AX")
 
-        color = COLORS.medium_green
+        color = Colors.medium_green
         if df["Close"].iloc[-1] < df["Close"].iloc[0]:
-            color = COLORS.medium_red
+            color = Colors.medium_red
 
         fig = CustomeFigure(
             go.Scatter(

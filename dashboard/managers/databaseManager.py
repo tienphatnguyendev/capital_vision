@@ -1,66 +1,89 @@
+from typing import List, Tuple
 import pandas as pd
+from interfaces.index import IData, IDataBaseManager
 from managers.constants.index import DATA_KEYS
 
 
-FILE_PATH = "dashboard/managers/data/banks-n-nonbanking.csv"
+FILE_PATH = "data/banks-n-nonbanking.csv"
 
 
-class DatabaseManager:
-    data_keys: dict
-
+class DatabaseManager(IDataBaseManager):
     def __init__(self):
-        self.data = pd.read_csv(FILE_PATH, index_col=0).sort_values(
-            by="year", ascending=False
-        )
+        super().__init__()
+
+        self.data = pd.read_csv(
+            FILE_PATH, index_col=0, on_bad_lines="warn"
+        ).sort_values(by="year", ascending=False)
+
         self.symbol = ""
         self.company_name = ""
+        self.__data_keys = {}
 
-        name = "ANZ Group Holdings Limited"
-        self.set_company_name(name)
+        self.update("ANZ Group Holdings Limited")
 
-    def set_company_name(self, company_name):
+    def update(self, company_name):
         self.company_name = company_name
         self.symbol = self.get_symbol()
 
         if self.is_banking():
-            self.data_keys = DATA_KEYS["BANK"]
+            self.__data_keys = DATA_KEYS["BANK"]
         else:
-            self.data_keys = DATA_KEYS["NON_BANK"]
+            self.__data_keys = DATA_KEYS["NON_BANK"]
 
-        return self
+        self.notify_observers()
 
-    def get_symbol(self):
-        return self.data.query("company_name == @self.company_name")["code"].values[0]
+    def get_symbol(self) -> str:
+        return str(
+            self.data.query("company_name == @self.company_name")["code"].values[0]
+        )
 
-    def get_name(self):
-        return self.data.query("code == @self.symbol")["company_name"].values[0]
+    def get_current_name(self) -> str:
+        return self.company_name
 
-    def get_all_company_names(self):
-        return self.data["company_name"].unique()
+    def get_current_symbol(self) -> str:
+        return self.symbol
 
-    def get_revenue(self, y_range=4):
-        return self._get_fin_metrics([self.data_keys["REVENUE"]], y_range)
+    def get_all_company_names(self) -> list[str]:
+        return [str(name) for name in self.data["company_name"].unique()]
 
-    def get_gross_income(self, y_range=4):
-        return self._get_fin_metrics([self.data_keys["GROSS_INCOME"]], y_range)
-
-    def get_expenses(self, y_range=4):
-        return self._get_fin_metrics([self.data_keys["EXPENSES"]], y_range)
-
-    def get_liability(self, y_range=4):
-        return self._get_fin_metrics([self.data_keys["LIABILITY"]], y_range)
-
-    def is_banking(self):
+    def is_banking(self) -> bool:
         return self.data.query("code == @self.symbol")["industry"].values[0] == "Banks"
 
-    def _get_fin_metrics(self, metrics, y_range=5):
-        res_df = self.data.sort_values(by="year", ascending=False)
+    def get_data(self, data_keys, y_range, statement_key) -> list[IData]:
+        metrics = [self.__data_keys[key] for key in data_keys]
         query_years = self.data.query("code == @self.symbol")["year"].unique()[:y_range]
-        res_df = self.data.query(
+
+        data = self.data.query(
             f""" \
                     code == @self.symbol and \
                     year in @query_years and \
-                    metrics in @metrics
+                    metrics in @metrics and \
+                    statement in @statement_key and \
+                    value.notnull() 
             """
         )
-        return res_df
+
+        years = [int(value) for value in data["year"].tolist()[::-1]]
+        values = [
+            self.format_value_to_millions(float(value))
+            for value in data["value"].tolist()[::-1]
+        ]
+        months = [int(value) for value in data["month"].tolist()[::-1]]
+
+        datas = [
+            IData(month, year, value)
+            for month, year, value in zip(months, years, values)
+        ]
+
+        unique_years = set(years)
+        latest_month_datas = []
+
+        for year in unique_years:
+            year_data = [data for data in datas if data.year == year]
+            largest_month_data = max(year_data, key=lambda x: x.month)
+            latest_month_datas.append(largest_month_data)
+
+        return latest_month_datas
+
+    def format_value_to_millions(self, value: float) -> float:
+        return value * 1_000_000

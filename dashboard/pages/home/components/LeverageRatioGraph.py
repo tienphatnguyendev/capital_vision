@@ -1,4 +1,4 @@
-from pages.constants.constants import COLORS
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
@@ -35,7 +35,7 @@ class LeverageRatioGraph(Panel):
                 x=years,
                 y=total_assets,
                 name="Total Assets",
-                marker=dict(color=f"{COLORS.orange}"),
+                marker=dict(color=f"{Colors.orange}"),
                 hovertemplate="Year: <b>%{x}</b><br>Asset: <b>%{y}</b>",
             )
         )
@@ -45,7 +45,7 @@ class LeverageRatioGraph(Panel):
                 x=years,
                 y=equity_capital,
                 name="Equity Capital",
-                marker=dict(color=f"{COLORS.green}"),
+                marker=dict(color=f"{Colors.green}"),
                 hovertemplate="Year: <b>%{x}</b><br>Equity: <b>%{y}</b>",
             )
         )
@@ -55,7 +55,7 @@ class LeverageRatioGraph(Panel):
                 x=years,
                 y=net_profit,
                 name="Net Profit",
-                marker=dict(color=f"{COLORS.medium_green}"),
+                marker=dict(color=f"{Colors.medium_green}"),
                 hovertemplate="Year: <b>%{x}</b><br>Profit: <b>%{y}</b>",
             )
         )
@@ -66,7 +66,7 @@ class LeverageRatioGraph(Panel):
                 y=roe_percentages,
                 name="ROE Percentage",
                 yaxis="y2",
-                marker=dict(color=f"{COLORS.light_green}"),
+                marker=dict(color=f"{Colors.light_green}"),
                 hovertemplate="Year: <b>%{x}</b><br>Value: <b>%{y}</b>",
             )
         )
@@ -77,7 +77,7 @@ class LeverageRatioGraph(Panel):
                 y=roa_percentages,
                 name="ROA Percentage",
                 yaxis="y2",
-                marker=dict(color=f"{COLORS.light_orange}"),
+                marker=dict(color=f"{Colors.light_orange}"),
                 hovertemplate="Year: <b>%{x}</b><br>Value: <b>%{y}</b>",
             )
         )

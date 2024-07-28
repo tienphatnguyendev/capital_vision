@@ -1,6 +1,7 @@
 import plotly.graph_objects as go
 from dash import dcc
-from pages.constants.constants import COLORS
+from pages.components.CustomeFigure import CustomeFigure
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 
 
@@ -52,13 +53,13 @@ class BreakDownCashFlow(Panel):
             "Operating Revenue2": 17,
         }
 
-        profit_color = COLORS.green
-        expense_color = COLORS.red
-        revenue = COLORS.medium_orange
+        profit_color = Colors.green
+        expense_color = Colors.red
+        revenue = Colors.medium_orange
 
-        profit_link_color = COLORS.light_green
-        expense_link_color = COLORS.light_red
-        revenue_link_color = COLORS.light_orange
+        profit_link_color = Colors.light_green
+        expense_link_color = Colors.light_red
+        revenue_link_color = Colors.light_orange
 
         node_colors = [
             revenue,
@@ -185,7 +186,7 @@ class BreakDownCashFlow(Panel):
             0.1,
         ]
 
-        fig = go.Figure(
+        fig = CustomeFigure(
             data=[
                 go.Sankey(
                     node=dict(
@@ -216,6 +217,7 @@ class BreakDownCashFlow(Panel):
         fig.update_layout(paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
 
         self.fig = fig
+
         self.graph = dcc.Graph(
             figure=fig, config=dict(displayModeBar=False), style=dict(height="100%")
         )

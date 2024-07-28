@@ -1,5 +1,5 @@
 from pages.components.CustomeFigure import CustomeFigure
-from pages.constants.constants import COLORS
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 import plotly.graph_objects as go
 from dash import dcc
@@ -23,11 +23,11 @@ class AnualCashFlow(Panel):
                 measure=measures,
                 y=values,
                 base=0,
-                decreasing={"marker": {"color": COLORS.red}},
-                increasing={"marker": {"color": COLORS.green}},
+                decreasing={"marker": {"color": Colors.red}},
+                increasing={"marker": {"color": Colors.green}},
                 totals={
                     "marker": {
-                        "color": COLORS.orange,
+                        "color": Colors.orange,
                     }
                 },
             ),

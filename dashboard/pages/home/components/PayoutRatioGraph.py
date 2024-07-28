@@ -1,4 +1,4 @@
-from pages.constants.constants import COLORS
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
@@ -26,7 +26,7 @@ class PayoutRatioGraph(Panel):
                 x=years,
                 y=payout,
                 name="Payout",
-                marker=dict(color=COLORS.light_red),
+                marker=dict(color=Colors.light_red),
             )
         )
 
@@ -36,7 +36,7 @@ class PayoutRatioGraph(Panel):
                 y=dividend_percentages,
                 name="Percentage",
                 yaxis="y2",
-                marker=dict(color=COLORS.green),
+                marker=dict(color=Colors.green),
             )
         )
 
