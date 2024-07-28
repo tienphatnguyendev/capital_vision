@@ -1,5 +1,7 @@
 import dash
 import dash_bootstrap_components as dbc
+from dash import dcc
+from pages.components.Navbar import Navbar
 
 
 class AppLayout(dbc.Container):
@@ -15,14 +17,9 @@ class AppLayout(dbc.Container):
 
     def create(self):
         self.elements = [
+            dcc.Location(id="url", refresh=False),
             dbc.Row(
-                [
-                    dbc.Col(
-                        [
-                            dash.page_container,
-                        ],
-                        style={"padding": "0px"},
-                    ),
-                ]
-            )
+                Navbar(app=self.app, height=5),
+            ),
+            dbc.Row(dash.page_container),
         ]

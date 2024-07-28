@@ -1,81 +1,55 @@
 from dash.development.base_component import Component
 import dash_bootstrap_components as dbc
-from dash import dcc, callback, Input, Output, State
-from interfaces.index import IApp
+from dash import dcc, callback, Input, Output, State, html
 
 
 class Navbar(dbc.Row):
-    app: IApp
-
     def __init__(self, app, height):
         self.app = app
-        self.children = []
-
-        self._create()
-        self._enable_input()
+        self.create()
 
         super().__init__(
-            self.children,
+            self.container,
             style=dict(
                 height=f"{height}vh",
             ),
             className="custom_row",
-            justify="between",
         )
 
-    def _enable_input(self):
+        self.enable_inputs()
+
+    def enable_inputs(self):
         @callback(
-            Output("company_title", "children"),
-            Input("dropdown", "value"),
-            State("company_title", "children"),
-            allow_duplicate=True,
+            [
+                Output("link-home", "className"),
+                Output("link-chat", "className"),
+            ],
+            [Input("url", "pathname")],
         )
-        def update_output(value, old_value):
-            if value is None:
-                return self.app.databaseManager.company_name
+        def update_active_link(pathname):
+            if pathname == "/ChatPage":
+                return ("nav-link", "nav-link nav-link-active")
+            else:
+                return (
+                    "nav-link nav-link-active",
+                    "nav-link",
+                )
 
-            self.app.databaseManager.set_company_name(value)
-            name = self.app.databaseManager.company_name
-            return f"{name}"
+    def create(self):
+        container = dbc.Container(fluid=True, className="nav_containter")
 
-    def _create(self):
-        self.add_company_title()
-        self.add_dropdown_box()
-        self.add_invest_button()
+        container.children = [
+            html.H3("CapVis", className="nav_title"),
+            dbc.Container(
+                [
+                    dcc.Link("Home", href="/", className="nav-link", id="link-home"),
+                    dcc.Link(
+                        "Chat", href="/ChatPage", className="nav-link", id="link-chat"
+                    ),
+                ],
+                fluid=True,
+                className="nav-links-container",
+            ),
+        ]
 
-    def add_company_title(self):
-        inital_company = self.app.databaseManager.symbol
-
-        self.company_title = dbc.FormText(
-            inital_company,
-            id="company_title",
-            className="company_title",
-        )
-        self.children.append(
-            dbc.Col([self.company_title], width=3, style={"height": "100%"})
-        )
-
-    def add_dropdown_box(self):
-        company_names = self.app.databaseManager.get_all_company_names()
-
-        self.dropdown = dcc.Dropdown(
-            company_names,
-            placeholder="Select a company",
-            className="dropdown",
-            id="dropdown",
-        )
-        self.children.append(dbc.Col([self.dropdown], width=6))
-
-    def add_invest_button(self):
-        self.nav_button = dbc.Button(
-            "Invest Your Future",
-            href="/path-to-navigate",
-            className="invest_button",
-            id="invest_button",
-        )
-        self.children.append(
-            dbc.Col(
-                [self.nav_button],
-                width=3,
-            )
-        )
+        self.container = container
