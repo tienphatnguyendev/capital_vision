@@ -26,6 +26,7 @@ class FirstGraphsRow(dbc.Row):
             self.enable_line_callbacks(line_graph)
 
         self.enable_asset_structure_callback()
+        self.enable_history_price_callback()
 
     def enable_line_callbacks(self, line_graph: LineGraph):
         graph_id_name = line_graph.graph_id_name
@@ -49,6 +50,14 @@ class FirstGraphsRow(dbc.Row):
         )
         def display_data(children):
             return self.assetStructure.behavior.create_figure()
+
+    def enable_history_price_callback(self):
+        @callback(
+            Output(self.history.graph_id, "figure"),
+            Input("company-title", "children"),
+        )
+        def display_data(children):
+            return self.history.create_figure()
 
     def create(self):
         self.create_line_graphs()
@@ -89,7 +98,7 @@ class FirstGraphsRow(dbc.Row):
         )
 
     def create_history_price_graph(self):
-        self.history = HistoryPriceGraph(self.row_height)
+        self.history = HistoryPriceGraph(self.app.databaseManager, self.row_height)
 
     def create_line_graphs(self):
         height = self.row_height / 2 - 0.4
