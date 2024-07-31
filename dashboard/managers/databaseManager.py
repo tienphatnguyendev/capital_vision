@@ -1,10 +1,10 @@
 from typing import List, Tuple
 import pandas as pd
 from interfaces.index import IData, IDataBaseManager
-from managers.constants.index import DATA_KEYS
+from managers.constants.index import METRICS, DataKeys
 
 
-FILE_PATH = "data/banks-n-nonbanking.csv"
+FILE_PATH = "dashboard/data/banks-n-nonbanking.csv"
 
 
 class DatabaseManager(IDataBaseManager):
@@ -26,9 +26,9 @@ class DatabaseManager(IDataBaseManager):
         self.symbol = self.get_symbol()
 
         if self.is_banking():
-            self.__data_keys = DATA_KEYS["BANK"]
+            self.__data_keys = METRICS["BANK"]
         else:
-            self.__data_keys = DATA_KEYS["NON_BANK"]
+            self.__data_keys = METRICS["NON_BANK"]
 
         self.notify_observers()
 
@@ -49,17 +49,22 @@ class DatabaseManager(IDataBaseManager):
     def is_banking(self) -> bool:
         return self.data.query("code == @self.symbol")["industry"].values[0] == "Banks"
 
-    def get_data(self, data_keys, y_range, statement_key) -> list[IData]:
+    def get_data(self, data_key, statement_key) -> IData:
+        data = self.get_datas([data_key], 1, statement_key)[0]
+        return data
+
+    def get_datas(self, data_keys, year_range, statement_key) -> list[IData]:
         metrics = [self.__data_keys[key] for key in data_keys]
-        query_years = self.data.query("code == @self.symbol")["year"].unique()[:y_range]
+        query_years = self.data.query("code == @self.symbol")["year"].unique()[
+            :year_range
+        ]
 
         data = self.data.query(
             f""" \
                     code == @self.symbol and \
                     year in @query_years and \
                     metrics in @metrics and \
-                    statement in @statement_key and \
-                    value.notnull() 
+                    statement in @statement_key
             """
         )
 
