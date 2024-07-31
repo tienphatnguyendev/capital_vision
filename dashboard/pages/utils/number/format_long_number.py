@@ -1,4 +1,4 @@
-def format_number(num):
+def format_long_number(num):
     num = float("{:.3g}".format(num))
     magnitude = 0
     while abs(num) >= 1000:

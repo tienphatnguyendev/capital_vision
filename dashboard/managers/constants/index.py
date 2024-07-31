@@ -19,6 +19,7 @@ BANK = {
     DataKeys.gross_income: "PreTax Profit",
     DataKeys.expenses: "Interest Expense",
     DataKeys.liability: "Total Liabilities",
+    DataKeys.equity: "Total Equity",
 }
 
 NON_BANK = {
@@ -26,13 +27,12 @@ NON_BANK = {
     DataKeys.gross_income: "EBITDA",
     DataKeys.expenses: "Operating Expenses",
     DataKeys.liability: "Total Liabilities",
-    DataKeys.assets: "total_assets",
-    DataKeys.equity: "total_equity",
-    DataKeys.short_debt: "short_term_debt",
-    DataKeys.long_debt: "long_term_debt",
+    DataKeys.equity: "Total Equity",
+    DataKeys.short_debt: "Short-Term Debt",
+    DataKeys.long_debt: "Long-Term Debt",
 }
 
-DATA_KEYS = {
+METRICS = {
     "BANK": BANK,
     "NON_BANK": NON_BANK,
 }

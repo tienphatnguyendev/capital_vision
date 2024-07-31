@@ -3,7 +3,7 @@ from dash import dcc
 import plotly.graph_objects as go
 from managers.constants.index import DataKeys
 from managers.DatabaseManager import DatabaseManager
-from pages.utils.number.format_number import format_number
+from pages.utils.number.format_long_number import format_long_number
 from pages.components.CustomeFigure import CustomeFigure
 from interfaces.index import IApp, Observer
 from pages.constants.constants import Colors
@@ -21,7 +21,7 @@ class LineGraph(dbc.Card, Observer):
         self.graph_id_name = f"line-graph-{index}"
         self.value_id_name = f"line-value-{index}"
 
-        datas = self.app.databaseManager.get_data(
+        datas = self.app.databaseManager.get_datas(
             [self.__data_key], 4, self.__statement_key
         )
         self.update_new_data(datas)
@@ -49,7 +49,7 @@ class LineGraph(dbc.Card, Observer):
         )
 
     def update(self, observable: DatabaseManager):
-        datas = observable.get_data([self.__data_key], 4, self.__statement_key)
+        datas = observable.get_datas([self.__data_key], 4, self.__statement_key)
         if not datas:
             return
         self.update_new_data(datas)
@@ -127,7 +127,7 @@ class LineGraph(dbc.Card, Observer):
         latest_value = self.latest_value
 
         self.value = dbc.FormText(
-            f"{self.unit}{format_number(latest_value)}",
+            f"{self.unit}{format_long_number(latest_value)}",
             className="line_graph_text line_value",
             style={"height": "30%"},
             id=self.value_id_name,

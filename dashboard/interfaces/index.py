@@ -47,8 +47,11 @@ class IDataBaseManager(Observable):
     def is_banking(self) -> bool:
         return False
 
-    def get_data(self, metrics, y_range, statement_key) -> list[IData]:
+    def get_datas(self, metrics, year_range, statement_key) -> list[IData]:
         return []
+
+    def get_data(self, metric, statement_key) -> IData:
+        return IData(0, 0, 0)
 
 
 class IApp:
@@ -56,4 +59,21 @@ class IApp:
     databaseManager: IDataBaseManager
 
     def start_app(self):
+        pass
+
+
+class IAssetStuctureGraph:
+    def __init__(self, observable: IDataBaseManager, height):
+        self.equity: IData = IData(0, 0, 0)
+        self.liabilities: IData = IData(0, 0, 0)
+        self.short_debt: IData = IData(0, 0, 0)
+        self.long_debt: IData = IData(0, 0, 0)
+
+    def update(self, observable: IDataBaseManager):
+        pass
+
+    def setBehavior(self, behavior):
+        pass
+
+    def init_graph(self):
         pass

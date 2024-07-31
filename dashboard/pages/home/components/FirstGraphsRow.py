@@ -1,6 +1,6 @@
 import dash_bootstrap_components as dbc
 from managers.constants.index import DataKeys, StatementKeys
-from pages.utils.number.format_number import format_number
+from pages.utils.number.format_long_number import format_long_number
 from interfaces.index import IApp
 from pages.home.components.HistoryPriceGraph import HistoryPriceGraph
 from pages.home.components.AssetStructureGraph import AssetStructureGraph
@@ -9,11 +9,9 @@ from dash import callback, Output, Input, State
 
 
 class FirstGraphsRow(dbc.Row):
-    app: IApp
-
     def __init__(self, height, app):
         self.row_height = height
-        self.app = app
+        self.app: IApp = app
         self.line_graph_cols = []
         self.line_graphs = []
         self.create()
@@ -27,6 +25,8 @@ class FirstGraphsRow(dbc.Row):
         for line_graph in self.line_graphs:
             self.enable_line_callbacks(line_graph)
 
+        self.enable_asset_structure_callback()
+
     def enable_line_callbacks(self, line_graph: LineGraph):
         graph_id_name = line_graph.graph_id_name
         value_id_name = line_graph.value_id_name
@@ -39,11 +39,22 @@ class FirstGraphsRow(dbc.Row):
         def display_data(children):
             return (
                 line_graph.create_figure(),
-                f"{line_graph.unit}{format_number(line_graph.latest_value)}",
+                f"{line_graph.unit}{format_long_number(line_graph.latest_value)}",
             )
+
+    def enable_asset_structure_callback(self):
+        @callback(
+            Output(self.assetStructure.graph_id, "figure"),
+            Input("company-title", "children"),
+        )
+        def display_data(children):
+            return self.assetStructure.behavior.create_figure()
 
     def create(self):
         self.create_line_graphs()
+        self.create_asset_structure_graph()
+        self.create_history_price_graph()
+
         self.elements = [
             dbc.Col(
                 [
@@ -65,9 +76,20 @@ class FirstGraphsRow(dbc.Row):
                 ],
                 width=5,
             ),
-            dbc.Col([AssetStructureGraph(self.row_height)], width=3),
-            dbc.Col([HistoryPriceGraph(self.row_height)], width=4),
+            dbc.Col(
+                self.assetStructure,
+                width=3,
+            ),
+            dbc.Col(self.history, width=4),
         ]
+
+    def create_asset_structure_graph(self):
+        self.assetStructure = AssetStructureGraph(
+            self.app.databaseManager, self.row_height
+        )
+
+    def create_history_price_graph(self):
+        self.history = HistoryPriceGraph(self.row_height)
 
     def create_line_graphs(self):
         height = self.row_height / 2 - 0.4
