@@ -11,18 +11,24 @@ class NonBankingAssetBehavior(FigureCreateBehavior):
         self.graph = graph
 
     def create_figure(self):
-        equity, short_debt, long_debt = (
+        equity, short_debt, long_debt, liability = (
             self.graph.equity.value,
             self.graph.short_debt.value,
             self.graph.long_debt.value,
+            self.graph.liabilities.value,
         )
 
         df = pd.DataFrame(
             dict(
-                totalValue=["Total", "Total", "Total"],
-                asset=["Equity", "Liabilities", "Liabilities"],
-                liabilities=[None, "Short Term", "Long Term"],
-                values=[equity, short_debt, long_debt],
+                totalValue=["Total", "Total", "Total", "Total"],
+                asset=["Equity", "Liabilities", "Liabilities", "Liabilities"],
+                liabilities=[None, "Short Term", "Long Term", "Other"],
+                values=[
+                    equity,
+                    short_debt,
+                    long_debt,
+                    liability - short_debt - long_debt,
+                ],
             )
         )
 
@@ -35,8 +41,9 @@ class NonBankingAssetBehavior(FigureCreateBehavior):
 
         fig.update_traces(
             marker_colors=[
-                Colors.green,
                 Colors.light_red,
+                Colors.light_red,
+                Colors.green,
                 Colors.light_red,
                 Colors.red,
                 "#ffffff",
@@ -47,7 +54,7 @@ class NonBankingAssetBehavior(FigureCreateBehavior):
 
         fig.update_traces(
             textfont=dict(
-                color=["white", "white", "white", "white", "black"],
+                color=["white", "white", "white", "white", "white", "black"],
             ),
         )
 
