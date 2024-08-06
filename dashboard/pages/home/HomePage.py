@@ -42,7 +42,7 @@ class HomePage:
                             ),
                             width=4,
                         ),
-                        dbc.Col(AnualCashFlow(height=29), width=4),
+                        dbc.Col(self.anual_cash_flow, width=4),
                     ],
                     className="g-2 custom_row",
                 ),
@@ -57,16 +57,26 @@ class HomePage:
         self.break_down_cash_flow = BreakDownCashFlow(
             self.app.databaseManager, height=30
         )
+        self.anual_cash_flow = AnualCashFlow(self.app.databaseManager, height=29)
 
     def __enable_callbacks(self):
         self.search_bar.enable_callback()
         self.first_graphs_row.enable_callback()
-        self.enable_break_down_cash_flow_callback()
+        self.__enable_break_down_cash_flow_callback()
+        self.__enable_anual_cash_flow_callback()
 
-    def enable_break_down_cash_flow_callback(self):
+    def __enable_break_down_cash_flow_callback(self):
         @callback(
             Output(self.break_down_cash_flow.graph_id, "figure"),
             Input("company-title", "children"),
         )
         def display_data(children):
             return self.break_down_cash_flow.create_figure()
+
+    def __enable_anual_cash_flow_callback(self):
+        @callback(
+            Output(self.anual_cash_flow.graph_id, "figure"),
+            Input("company-title", "children"),
+        )
+        def display_data(children):
+            return self.anual_cash_flow.create_figure()
