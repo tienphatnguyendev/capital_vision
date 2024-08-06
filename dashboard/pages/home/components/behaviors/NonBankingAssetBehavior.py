@@ -62,7 +62,6 @@ class NonBankingAssetBehavior(FigureCreateBehavior):
             hovertemplate=(
                 "Label: <b>%{label}</b><br>"
                 "Value: <b>%{value:.3s}</b><br>"
-                "Parent: <b>%{parent}</b><br>"
                 "<extra></extra>"
             ),
         )

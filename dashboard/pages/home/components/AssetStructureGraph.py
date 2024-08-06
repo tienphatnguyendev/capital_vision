@@ -5,12 +5,12 @@ from pages.home.components.behaviors.NonBankingAssetBehavior import (
 from managers.constants.index import DataKeys, StatementKeys
 from pages.home.components.behaviors.BankingAssetBehavior import BankingAssetBehavior
 from pages.home.components.behaviors.FigureCreateBehavior import FigureCreateBehavior
-from interfaces.index import IAssetStuctureGraph, IDataBaseManager
+from interfaces.index import IAssetStuctureGraph, IDatabaseManager
 from pages.components.Panel import Panel
 
 
 class AssetStructureGraph(Panel, IAssetStuctureGraph):
-    def __init__(self, observable: IDataBaseManager, height):
+    def __init__(self, observable: IDatabaseManager, height):
         self.behavior = FigureCreateBehavior()
         self.graph_id = "asset-structure-graph"
 
@@ -20,7 +20,7 @@ class AssetStructureGraph(Panel, IAssetStuctureGraph):
         super().__init__("Asset Structure", [self.graph], height=height)
         observable.register_observer(self)
 
-    def update(self, observable: IDataBaseManager):
+    def update(self, observable: IDatabaseManager):
         if observable.is_banking():
             self.setBehavior(BankingAssetBehavior(self))
         else:

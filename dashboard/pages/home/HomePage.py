@@ -1,4 +1,5 @@
 import dash_bootstrap_components as dbc
+from interfaces.index import IApp
 from pages.components.PageLayout import PageLayout
 from pages.home.components.SearchBar import SearchBar
 from pages.home.components.LeverageRatioGraph import LeverageRatioGraph
@@ -7,12 +8,13 @@ from pages.home.components.AnualCashFlow import AnualCashFlow
 from pages.home.components.DeptEquityGraph import DebtEquityGraph
 from pages.home.components.BreakDownCashFlow import BreakDownCashFlow
 from pages.home.components.FirstGraphsRow import FirstGraphsRow
+from dash import callback, Input, Output, State
 
 
 class HomePage:
     layout: dbc.Container
 
-    def __init__(self, app):
+    def __init__(self, app: IApp):
         self.app = app
 
         self.__create()
@@ -23,7 +25,10 @@ class HomePage:
                 self.first_graphs_row,
                 dbc.Row(
                     [
-                        dbc.Col(BreakDownCashFlow(height=30), width=6),
+                        dbc.Col(
+                            self.break_down_cash_flow,
+                            width=6,
+                        ),
                         dbc.Col(PayoutRatioGraph(height=30), width=6),
                     ],
                     className="g-2 custom_row",
@@ -49,7 +54,19 @@ class HomePage:
     def __create(self):
         self.search_bar = SearchBar(app=self.app, height=4)
         self.first_graphs_row = FirstGraphsRow(height=28, app=self.app)
+        self.break_down_cash_flow = BreakDownCashFlow(
+            self.app.databaseManager, height=30
+        )
 
     def __enable_callbacks(self):
         self.search_bar.enable_callback()
         self.first_graphs_row.enable_callback()
+        self.enable_break_down_cash_flow_callback()
+
+    def enable_break_down_cash_flow_callback(self):
+        @callback(
+            Output(self.break_down_cash_flow.graph_id, "figure"),
+            Input("company-title", "children"),
+        )
+        def display_data(children):
+            return self.break_down_cash_flow.create_figure()

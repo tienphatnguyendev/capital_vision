@@ -28,7 +28,7 @@ class IData:
         self.value = value
 
 
-class IDataBaseManager(Observable):
+class IDatabaseManager(Observable):
     def __init__(self):
         super().__init__()
 
@@ -56,20 +56,20 @@ class IDataBaseManager(Observable):
 
 class IApp:
     pages = []
-    databaseManager: IDataBaseManager
+    databaseManager: IDatabaseManager
 
     def start_app(self):
         pass
 
 
 class IAssetStuctureGraph:
-    def __init__(self, observable: IDataBaseManager, height):
+    def __init__(self, observable: IDatabaseManager, height):
         self.equity: IData = IData(0, 0, 0)
         self.liabilities: IData = IData(0, 0, 0)
         self.short_debt: IData = IData(0, 0, 0)
         self.long_debt: IData = IData(0, 0, 0)
 
-    def update(self, observable: IDataBaseManager):
+    def update(self, observable: IDatabaseManager):
         pass
 
     def setBehavior(self, behavior):

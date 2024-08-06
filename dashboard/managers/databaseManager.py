@@ -1,13 +1,13 @@
 from typing import List, Tuple
 import pandas as pd
-from interfaces.index import IData, IDataBaseManager
+from interfaces.index import IData, IDatabaseManager
 from managers.constants.index import METRICS, DataKeys
 
 
-FILE_PATH = "dashboard/data/banks-n-nonbanking.csv"
+FILE_PATH = "data/banks-n-nonbanking.csv"
 
 
-class DatabaseManager(IDataBaseManager):
+class DatabaseManager(IDatabaseManager):
     def __init__(self):
         super().__init__()
 
@@ -19,7 +19,7 @@ class DatabaseManager(IDataBaseManager):
         self.company_name = ""
         self.__data_keys = {}
 
-        self.update("ANZ Group Holdings Limited")
+        self.update("Coles Group Limited")
 
     def update(self, company_name):
         self.company_name = company_name
@@ -87,6 +87,8 @@ class DatabaseManager(IDataBaseManager):
             year_data = [data for data in datas if data.year == year]
             largest_month_data = max(year_data, key=lambda x: x.month)
             latest_month_datas.append(largest_month_data)
+
+        latest_month_datas = sorted(latest_month_datas, key=lambda x: x.year)
 
         return latest_month_datas
 
