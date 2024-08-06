@@ -7,6 +7,7 @@ from pages.home.components.AnualCashFlow import AnualCashFlow
 from pages.home.components.DeptEquityGraph import DebtEquityGraph
 from pages.home.components.BreakDownCashFlow import BreakDownCashFlow
 from pages.home.components.FirstGraphsRow import FirstGraphsRow
+from dash import callback, Output, Input
 
 
 class HomePage:
@@ -24,7 +25,10 @@ class HomePage:
                 dbc.Row(
                     [
                         dbc.Col(BreakDownCashFlow(height=30), width=6),
-                        dbc.Col(PayoutRatioGraph(height=30), width=6),
+                        dbc.Col(
+                            self.payout_ratio_graph,
+                            width=6,
+                        ),
                     ],
                     className="g-2 custom_row",
                 ),
@@ -49,7 +53,19 @@ class HomePage:
     def __create(self):
         self.search_bar = SearchBar(app=self.app, height=4)
         self.first_graphs_row = FirstGraphsRow(height=28, app=self.app)
+        self.payout_ratio_graph = PayoutRatioGraph(
+            height=30, observable=self.app.databaseManager
+        )
 
     def __enable_callbacks(self):
         self.search_bar.enable_callback()
         self.first_graphs_row.enable_callback()
+        self.__enable_payout_callback()
+
+    def __enable_payout_callback(self):
+        @callback(
+            Output(self.payout_ratio_graph.graph_id, "figure"),
+            Input("company-title", "children"),
+        )
+        def display_data(children):
+            return self.payout_ratio_graph.create_figure()

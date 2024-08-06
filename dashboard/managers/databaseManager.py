@@ -49,11 +49,13 @@ class DatabaseManager(IDataBaseManager):
     def is_banking(self) -> bool:
         return self.data.query("code == @self.symbol")["industry"].values[0] == "Banks"
 
-    def get_data(self, data_key, statement_key) -> IData:
+    def get_data(self, data_key, statement_key, to_million=True) -> IData:
         data = self.get_datas([data_key], 1, statement_key)[0]
         return data
 
-    def get_datas(self, data_keys, year_range, statement_key) -> list[IData]:
+    def get_datas(
+        self, data_keys, year_range, statement_key, to_million=True
+    ) -> list[IData]:
         metrics = [self.__data_keys[key] for key in data_keys]
         query_years = self.data.query("code == @self.symbol")["year"].unique()[
             :year_range
@@ -66,15 +68,17 @@ class DatabaseManager(IDataBaseManager):
                     metrics in @metrics and \
                     statement in @statement_key
             """
-        )
+        ).sort_values(by="metrics")
 
         years = [int(value) for value in data["year"].tolist()[::-1]]
-        values = [
-            self.format_value_to_millions(float(value))
-            for value in data["value"].tolist()[::-1]
-        ]
+        if to_million:
+            values = [
+                self.format_value_to_millions(float(value))
+                for value in data["value"].tolist()[::-1]
+            ]
+        else:
+            values = [float(value) for value in data["value"].tolist()[::-1]]
         months = [int(value) for value in data["month"].tolist()[::-1]]
-
         datas = [
             IData(month, year, value)
             for month, year, value in zip(months, years, values)
