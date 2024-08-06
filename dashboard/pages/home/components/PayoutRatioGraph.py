@@ -1,4 +1,3 @@
-from collections import defaultdict
 from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
