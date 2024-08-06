@@ -3,7 +3,6 @@ from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
-import random
 from managers.constants.index import DataKeys, StatementKeys
 from pages.components.CustomeFigure import CustomeFigure
 from interfaces.index import IDataBaseManager
@@ -12,39 +11,37 @@ from interfaces.index import IDataBaseManager
 class PayoutRatioGraph(Panel):
     def __init__(self, observable: IDataBaseManager, height):
         self.graph_id = "payout-ratio-graph"
-        
+        self.set_year_range(5)
         observable.register_observer(self)
         self.update(observable)
         self.init_graph()
 
         super().__init__("Payout Dividend", [self.graph], height)
 
-    def update(self, observer: IDataBaseManager):
-        Y_RANGE = 5
+    def set_year_range(self, year_range):
+        self.year_range = year_range
 
-        eps = observer.get_datas(
-            data_keys=[
-                DataKeys.eps,
-            ],
-            year_range=Y_RANGE,
-            statement_key=StatementKeys.per_share_statistics,
+    def update(self, observable: IDataBaseManager):
+
+        eps = observable.get_datas(
+            [DataKeys.eps],
+            self.year_range,
+            StatementKeys.per_share_statistics,
             to_million=False,
         )
 
-        dps = observer.get_datas(
-            data_keys=[
-                DataKeys.dps,
-            ],
-            year_range=Y_RANGE,
-            statement_key=StatementKeys.per_share_statistics,
+        dps = observable.get_datas(
+            [DataKeys.dps],
+            self.year_range,
+            StatementKeys.per_share_statistics,
             to_million=False,
         )
 
-        dpr = [dps[year].value / eps[year].value for year in range(0, Y_RANGE)]
+        dpr = [dps[year].value / eps[year].value for year in range(0, self.year_range)]
 
+        self.years = [item.year for item in eps]
         self.payout = [item.value for item in eps]
         self.dividend_percentages = dpr
-        self.years = [item.year for item in eps]
 
     def init_graph(self):
         self.fig = self.create_figure()
