@@ -30,11 +30,16 @@ class DataKeys:
     non_interest_expense = "NON_INTEREST_EXPENSE"
     abnormals = "ABNORMALS"
     abnormals_tax = "ABNORMALS_TAX"
+    # Anual Cashflow
+    operating_cashflow = "OPERATING_CASHFLOW"
+    investing_cashflow = "INVESTING_CASHFLOW"
+    financing_cashflow = "FINANCING_CASHFLOW"
 
 
 class StatementKeys:
     profit_loss = "profit_n_loss"
     balance_sheet = "balance_sheet"
+    cash_flow = "cash_flow"
 
 
 BANK = {
@@ -77,6 +82,10 @@ COMMON_KEYS = {
     DataKeys.tax_expense: "Tax Expense",
     DataKeys.net_profit: "Net Profit after Tax Before Abnormals",
     DataKeys.reported_npat: "Reported NPAT After Abnormals",
+    # Cash flow
+    DataKeys.operating_cashflow: "Net Operating Cash Flow",
+    DataKeys.investing_cashflow: "Net Investing Cash Flow",
+    DataKeys.financing_cashflow: "Net Financing Cash Flow",
 }
 
 BANK.update(COMMON_KEYS)

@@ -50,11 +50,11 @@ class DatabaseManager(IDatabaseManager):
         return self.data.query("code == @self.symbol")["industry"].values[0] == "Banks"
 
     def get_data(self, data_key, statement_key) -> IData:
-        data = self.get_datas([data_key], 1, statement_key)[0]
+        data = self.get_datas(data_key, 1, statement_key)[0]
         return data
 
-    def get_datas(self, data_keys, year_range, statement_key) -> list[IData]:
-        metrics = [self.__data_keys[key] for key in data_keys]
+    def get_datas(self, data_key, year_range, statement_key) -> list[IData]:
+        metric = self.__data_keys[data_key]
         query_years = self.data.query("code == @self.symbol")["year"].unique()[
             :year_range
         ]
@@ -63,7 +63,7 @@ class DatabaseManager(IDatabaseManager):
             f""" \
                     code == @self.symbol and \
                     year in @query_years and \
-                    metrics in @metrics and \
+                    metrics == @metric and \
                     statement in @statement_key
             """
         )

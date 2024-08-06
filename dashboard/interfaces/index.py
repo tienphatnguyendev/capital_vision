@@ -47,10 +47,10 @@ class IDatabaseManager(Observable):
     def is_banking(self) -> bool:
         return False
 
-    def get_datas(self, metrics, year_range, statement_key) -> list[IData]:
+    def get_datas(self, key, year_range, statement_key) -> list[IData]:
         return []
 
-    def get_data(self, metric, statement_key) -> IData:
+    def get_data(self, key, statement_key) -> IData:
         return IData(0, 0, 0)
 
 
