@@ -1,6 +1,3 @@
-from typing import List, Literal, Tuple
-
-
 class Observable:
     def __init__(self):
         self._observers = []
@@ -47,10 +44,10 @@ class IDatabaseManager(Observable):
     def is_banking(self) -> bool:
         return False
 
-    def get_datas(self, key, year_range, statement_key) -> list[IData]:
+    def get_datas(self, key, year_range, statement_key, to_million=True) -> list[IData]:
         return []
 
-    def get_data(self, key, statement_key) -> IData:
+    def get_data(self, key, statement_key, to_million=True) -> IData:
         return IData(0, 0, 0)
 
 

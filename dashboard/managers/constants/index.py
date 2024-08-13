@@ -7,6 +7,10 @@ class DataKeys:
     equity = "EQUITY"
     short_debt = "SHORT_DEBT"
     long_debt = "LONG_DEBT"
+    # Payout ratio
+    eps = "EPS"
+    dps = "DPS"
+    # Cashflow
     operating_revenue = "OPERATING_REVENUE"
     other_revenue = "OTHER_REVENUE"
     total_revenue_excluding_interest = "TOTAL_REVENUE_EXCLUDING_INTEREST"
@@ -39,6 +43,7 @@ class DataKeys:
 class StatementKeys:
     profit_loss = "profit_n_loss"
     balance_sheet = "balance_sheet"
+    per_share_statistics = "per_share_statistics"
     cash_flow = "cash_flow"
 
 
@@ -86,6 +91,9 @@ COMMON_KEYS = {
     DataKeys.operating_cashflow: "Net Operating Cash Flow",
     DataKeys.investing_cashflow: "Net Investing Cash Flow",
     DataKeys.financing_cashflow: "Net Financing Cash Flow",
+    # Payout ratio
+    DataKeys.eps: "EPS Aft. Abs.",
+    DataKeys.dps: "DPS - Adj",
 }
 
 BANK.update(COMMON_KEYS)
