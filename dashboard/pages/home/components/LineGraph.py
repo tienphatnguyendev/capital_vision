@@ -1,11 +1,9 @@
 import dash_bootstrap_components as dbc
 from dash import dcc
 import plotly.graph_objects as go
-from managers.constants.index import DataKeys
-from managers.DatabaseManager import DatabaseManager
 from pages.utils.number.format_long_number import format_long_number
 from pages.components.CustomeFigure import CustomeFigure
-from interfaces.index import IApp, Observer
+from interfaces.index import IApp, IDatabaseManager, Observer
 from pages.constants.constants import Colors
 
 
@@ -21,10 +19,7 @@ class LineGraph(dbc.Card, Observer):
         self.graph_id_name = f"line-graph-{index}"
         self.value_id_name = f"line-value-{index}"
 
-        datas = self.app.databaseManager.get_datas(
-            [self.__data_key], 4, self.__statement_key
-        )
-        self.update_new_data(datas)
+        self.update(self.app.databaseManager)
 
         self.app.databaseManager.register_observer(self)
 
@@ -48,8 +43,8 @@ class LineGraph(dbc.Card, Observer):
             style=dict(height=f"{height}vh"),
         )
 
-    def update(self, observable: DatabaseManager):
-        datas = observable.get_datas([self.__data_key], 4, self.__statement_key)
+    def update(self, observable: IDatabaseManager):
+        datas = observable.get_datas(self.__data_key, 4, self.__statement_key)
         if not datas:
             return
         self.update_new_data(datas)

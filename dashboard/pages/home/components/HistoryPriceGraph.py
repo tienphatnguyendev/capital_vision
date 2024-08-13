@@ -1,4 +1,4 @@
-from interfaces.index import IDataBaseManager
+from interfaces.index import IDatabaseManager
 from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
@@ -9,7 +9,7 @@ from datetime import date, timedelta
 
 
 class HistoryPriceGraph(Panel):
-    def __init__(self, observable: IDataBaseManager, height):
+    def __init__(self, observable: IDatabaseManager, height):
         self.graph_id = "history-price-graph"
         self.current_date = date.today()
         self.previous_two_year = self.current_date - timedelta(days=2 * 365)
@@ -20,7 +20,7 @@ class HistoryPriceGraph(Panel):
 
         super().__init__("History Price", [self.graph], height=height)
 
-    def update(self, observer: IDataBaseManager):
+    def update(self, observer: IDatabaseManager):
         symbol = observer.get_current_symbol()
         ticker = symbol + ".AX"
         self.df = self.get_prices(ticker)

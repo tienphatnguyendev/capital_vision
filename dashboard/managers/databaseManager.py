@@ -1,13 +1,13 @@
 from typing import List, Tuple
 import pandas as pd
-from interfaces.index import IData, IDataBaseManager
+from interfaces.index import IData, IDatabaseManager
 from managers.constants.index import METRICS, DataKeys
 
 
-FILE_PATH = "dashboard/data/banks-n-nonbanking.csv"
+FILE_PATH = "data/banks-n-nonbanking.csv"
 
 
-class DatabaseManager(IDataBaseManager):
+class DatabaseManager(IDatabaseManager):
     def __init__(self):
         super().__init__()
 
@@ -19,7 +19,7 @@ class DatabaseManager(IDataBaseManager):
         self.company_name = ""
         self.__data_keys = {}
 
-        self.update("ANZ Group Holdings Limited")
+        self.update("Coles Group Limited")
 
     def update(self, company_name):
         self.company_name = company_name
@@ -50,13 +50,13 @@ class DatabaseManager(IDataBaseManager):
         return self.data.query("code == @self.symbol")["industry"].values[0] == "Banks"
 
     def get_data(self, data_key, statement_key, to_million=True) -> IData:
-        data = self.get_datas([data_key], 1, statement_key)[0]
+        data = self.get_datas(data_key, 1, statement_key, to_million)[0]
         return data
 
     def get_datas(
-        self, data_keys, year_range, statement_key, to_million=True
+        self, data_key, year_range, statement_key, to_million=True
     ) -> list[IData]:
-        metrics = [self.__data_keys[key] for key in data_keys]
+        metric = self.__data_keys[data_key]
         query_years = self.data.query("code == @self.symbol")["year"].unique()[
             :year_range
         ]
@@ -65,20 +65,18 @@ class DatabaseManager(IDataBaseManager):
             f""" \
                     code == @self.symbol and \
                     year in @query_years and \
-                    metrics in @metrics and \
+                    metrics == @metric and \
                     statement in @statement_key
             """
         ).sort_values(by="metrics")
 
         years = [int(value) for value in data["year"].tolist()[::-1]]
-        if to_million:
-            values = [
-                self.format_value_to_millions(float(value))
-                for value in data["value"].tolist()[::-1]
-            ]
-        else:
-            values = [float(value) for value in data["value"].tolist()[::-1]]
         months = [int(value) for value in data["month"].tolist()[::-1]]
+        values = [float(value) for value in data["value"].tolist()[::-1]]
+
+        if to_million:
+            values = [self.format_value_to_millions(value) for value in values]
+
         datas = [
             IData(month, year, value)
             for month, year, value in zip(months, years, values)
@@ -91,6 +89,8 @@ class DatabaseManager(IDataBaseManager):
             year_data = [data for data in datas if data.year == year]
             largest_month_data = max(year_data, key=lambda x: x.month)
             latest_month_datas.append(largest_month_data)
+
+        latest_month_datas = sorted(latest_month_datas, key=lambda x: x.year)
 
         return latest_month_datas
 

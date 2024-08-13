@@ -1,6 +1,3 @@
-from typing import List, Literal, Tuple
-
-
 class Observable:
     def __init__(self):
         self._observers = []
@@ -28,7 +25,7 @@ class IData:
         self.value = value
 
 
-class IDataBaseManager(Observable):
+class IDatabaseManager(Observable):
     def __init__(self):
         super().__init__()
 
@@ -47,31 +44,29 @@ class IDataBaseManager(Observable):
     def is_banking(self) -> bool:
         return False
 
-    def get_datas(
-        self, metrics, year_range, statement_key, to_million=True
-    ) -> list[IData]:
+    def get_datas(self, key, year_range, statement_key, to_million=True) -> list[IData]:
         return []
 
-    def get_data(self, metric, statement_key, to_million=True) -> IData:
+    def get_data(self, key, statement_key, to_million=True) -> IData:
         return IData(0, 0, 0)
 
 
 class IApp:
     pages = []
-    databaseManager: IDataBaseManager
+    databaseManager: IDatabaseManager
 
     def start_app(self):
         pass
 
 
 class IAssetStuctureGraph:
-    def __init__(self, observable: IDataBaseManager, height):
+    def __init__(self, observable: IDatabaseManager, height):
         self.equity: IData = IData(0, 0, 0)
         self.liabilities: IData = IData(0, 0, 0)
         self.short_debt: IData = IData(0, 0, 0)
         self.long_debt: IData = IData(0, 0, 0)
 
-    def update(self, observable: IDataBaseManager):
+    def update(self, observable: IDatabaseManager):
         pass
 
     def setBehavior(self, behavior):
