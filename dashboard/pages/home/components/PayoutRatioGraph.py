@@ -1,14 +1,14 @@
+from interfaces.index import IDatabaseManager
 from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
 from managers.constants.index import DataKeys, StatementKeys
 from pages.components.CustomeFigure import CustomeFigure
-from interfaces.index import IDataBaseManager
 
 
 class PayoutRatioGraph(Panel):
-    def __init__(self, observable: IDataBaseManager, height):
+    def __init__(self, observable: IDatabaseManager, height):
         self.graph_id = "payout-ratio-graph"
         self.set_year_range(5)
         observable.register_observer(self)
@@ -20,20 +20,20 @@ class PayoutRatioGraph(Panel):
     def set_year_range(self, year_range):
         self.year_range = year_range
 
-    def update(self, observable: IDataBaseManager):
+    def update(self, observable: IDatabaseManager):
 
         eps = observable.get_datas(
-            [DataKeys.eps],
+            DataKeys.eps,
             self.year_range,
             StatementKeys.per_share_statistics,
-            to_million=False,
+            False,
         )
 
         dps = observable.get_datas(
-            [DataKeys.dps],
+            DataKeys.dps,
             self.year_range,
             StatementKeys.per_share_statistics,
-            to_million=False,
+            False,
         )
 
         dpr = [dps[year].value / eps[year].value for year in range(0, self.year_range)]
