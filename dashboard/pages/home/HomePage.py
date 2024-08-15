@@ -5,7 +5,7 @@ from pages.home.components.SearchBar import SearchBar
 from pages.home.components.LeverageRatioGraph import LeverageRatioGraph
 from pages.home.components.PayoutRatioGraph import PayoutRatioGraph
 from pages.home.components.AnualCashFlow import AnualCashFlow
-from pages.home.components.DeptEquityGraph import DebtEquityGraph
+from pages.home.components.FinancialLeverageGraph import FinancialLeverageGraph
 from pages.home.components.BreakDownCashFlow import BreakDownCashFlow
 from pages.home.components.FirstGraphsRow import FirstGraphsRow
 from dash import callback, Output, Input
@@ -37,7 +37,8 @@ class HomePage:
                     [
                         dbc.Col(LeverageRatioGraph(height=29), width=4),
                         dbc.Col(
-                            DebtEquityGraph(
+                            FinancialLeverageGraph(
+                                self.app.databaseManager,
                                 height=29,
                             ),
                             width=4,
@@ -61,6 +62,9 @@ class HomePage:
             self.app.databaseManager, height=30
         )
         self.anual_cash_flow = AnualCashFlow(self.app.databaseManager, height=29)
+        self.financial_leverage_graph = FinancialLeverageGraph(
+            self.app.databaseManager, height=29
+        )
 
     def __enable_callbacks(self):
         self.search_bar.enable_callback()
@@ -68,6 +72,15 @@ class HomePage:
         self.__enable_break_down_cash_flow_callback()
         self.__enable_anual_cash_flow_callback()
         self.__enable_payout_callback()
+        self.__enable_financial_leverage_callback()
+
+    def __enable_financial_leverage_callback(self):
+        @callback(
+            Output(self.financial_leverage_graph.graph_id, "figure"),
+            Input("company-title", "children"),
+        )
+        def display_data(children):
+            return self.financial_leverage_graph.create_figure()
 
     def __enable_payout_callback(self):
         @callback(

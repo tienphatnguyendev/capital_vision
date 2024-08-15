@@ -52,7 +52,7 @@ class PayoutRatioGraph(Panel):
         )
 
     def create_figure(self):
-        fig = CustomeFigure()
+        fig = CustomeFigure(layout=go.Layout(legend=dict(x=1.1, y=1)))
 
         fig.add_trace(
             go.Bar(
@@ -68,7 +68,7 @@ class PayoutRatioGraph(Panel):
                 go.Scatter(
                     x=self.years,
                     y=self.dividend_percentages,
-                    name="Percentage",
+                    name="Payout Ratio",
                     yaxis="y2",
                     marker=dict(color=Colors.green),
                 )
@@ -83,8 +83,9 @@ class PayoutRatioGraph(Panel):
                 overlaying="y",
             ),
         )
+        fig.update_layout(showlegend=True)
         fig.update_xaxes(dtick=1)
-        fig.update_layout(yaxis_tickformat="$")
+        fig.update_layout(yaxis_tickformat="$.1s")
         fig.update_layout(yaxis2_tickformat=".1%")
         fig.update_traces(
             hoverlabel=dict(
