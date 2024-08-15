@@ -90,7 +90,7 @@ class AnualCashFlow(Panel):
         fig.update_layout(
             waterfallgroupgap=0.1,
         )
-        fig.update_layout(yaxis_tickformat="$.3s")
+        fig.update_layout(yaxis_tickformat="$.1s")
         fig.update_xaxes(tickvals=self.labels, ticktext=self.years)
 
         return fig

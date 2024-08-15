@@ -4,7 +4,7 @@ from interfaces.index import IData, IDatabaseManager
 from managers.constants.index import METRICS, DataKeys
 
 
-FILE_PATH = "data/banks-n-nonbanking.csv"
+FILE_PATH = "dashboard/data/banks-n-nonbanking.csv"
 
 
 class DatabaseManager(IDatabaseManager):

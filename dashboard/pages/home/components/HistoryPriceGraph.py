@@ -40,7 +40,7 @@ class HistoryPriceGraph(Panel):
             )
         )
 
-        fig.update_layout(yaxis_tickformat="$")
+        fig.update_layout(yaxis_tickformat="$.1s")
         fig.update_traces(
             hovertemplate="Date: <b>%{x}</b><br>"
             + "Price: $<b>%{y:3.s}</b><extra></extra>",
