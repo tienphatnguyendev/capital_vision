@@ -52,7 +52,9 @@ class PayoutRatioGraph(Panel):
         )
 
     def create_figure(self):
-        fig = CustomeFigure(layout=go.Layout(legend=dict(x=1.1, y=1)))
+        legend_x = 1
+
+        fig = CustomeFigure()
 
         fig.add_trace(
             go.Bar(
@@ -73,6 +75,7 @@ class PayoutRatioGraph(Panel):
                     marker=dict(color=Colors.green),
                 )
             )
+            legend_x = 1.13
 
         fig.update_layout(
             yaxis=dict(
@@ -87,6 +90,7 @@ class PayoutRatioGraph(Panel):
         fig.update_xaxes(dtick=1)
         fig.update_layout(yaxis_tickformat="$.1s")
         fig.update_layout(yaxis2_tickformat=".1%")
+        fig.update_layout(legend=dict(x=legend_x, y=1))
         fig.update_traces(
             hoverlabel=dict(
                 font_size=16,
