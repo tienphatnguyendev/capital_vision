@@ -37,10 +37,7 @@ class HomePage:
                     [
                         dbc.Col(LeverageRatioGraph(height=29), width=4),
                         dbc.Col(
-                            FinancialLeverageGraph(
-                                self.app.databaseManager,
-                                height=29,
-                            ),
+                            self.financial_leverage_graph,
                             width=4,
                         ),
                         dbc.Col(self.anual_cash_flow, width=4),
