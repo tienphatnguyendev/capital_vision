@@ -38,6 +38,10 @@ class DataKeys:
     operating_cashflow = "OPERATING_CASHFLOW"
     investing_cashflow = "INVESTING_CASHFLOW"
     financing_cashflow = "FINANCING_CASHFLOW"
+    # Profitability
+    roe = "ROE"
+    roa = "ROA"
+    total_assets = "TOTAL_ASSETS"
 
 
 class StatementKeys:
@@ -45,6 +49,7 @@ class StatementKeys:
     balance_sheet = "balance_sheet"
     per_share_statistics = "per_share_statistics"
     cash_flow = "cash_flow"
+    ratio_analysis = "ratio_analysis"
 
 
 BANK = {
@@ -94,6 +99,10 @@ COMMON_KEYS = {
     # Payout ratio
     DataKeys.eps: "EPS Aft. Abs.",
     DataKeys.dps: "DPS - Adj",
+    # Profitability
+    DataKeys.total_assets: "Total Assets",
+    DataKeys.roa: "ROA (%)",
+    DataKeys.roe: "ROE (%)",
 }
 
 BANK.update(COMMON_KEYS)

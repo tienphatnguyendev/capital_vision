@@ -1,10 +1,9 @@
-from typing import List, Tuple
 import pandas as pd
 from interfaces.index import IData, IDatabaseManager
-from managers.constants.index import METRICS, DataKeys
+from managers.constants.index import METRICS
 
 
-FILE_PATH = "dashboard/data/banks-n-nonbanking.csv"
+FILE_PATH = "data/banks-n-nonbanking.csv"
 
 
 class DatabaseManager(IDatabaseManager):

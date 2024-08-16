@@ -2,7 +2,7 @@ import dash_bootstrap_components as dbc
 from interfaces.index import IApp
 from pages.components.PageLayout import PageLayout
 from pages.home.components.SearchBar import SearchBar
-from pages.home.components.LeverageRatioGraph import LeverageRatioGraph
+from pages.home.components.ProfitabilityGraph import ProfitabilityGraph
 from pages.home.components.PayoutRatioGraph import PayoutRatioGraph
 from pages.home.components.AnualCashFlow import AnualCashFlow
 from pages.home.components.FinancialLeverageGraph import FinancialLeverageGraph
@@ -35,7 +35,7 @@ class HomePage:
                 ),
                 dbc.Row(
                     [
-                        dbc.Col(LeverageRatioGraph(height=29), width=4),
+                        dbc.Col(self.profitability_graph, width=4),
                         dbc.Col(
                             self.financial_leverage_graph,
                             width=4,
@@ -62,6 +62,9 @@ class HomePage:
         self.financial_leverage_graph = FinancialLeverageGraph(
             self.app.databaseManager, height=29
         )
+        self.profitability_graph = ProfitabilityGraph(
+            self.app.databaseManager, height=29
+        )
 
     def __enable_callbacks(self):
         self.search_bar.enable_callback()
@@ -70,6 +73,15 @@ class HomePage:
         self.__enable_anual_cash_flow_callback()
         self.__enable_payout_callback()
         self.__enable_financial_leverage_callback()
+        self.__enable_profitability_callback()
+
+    def __enable_profitability_callback(self):
+        @callback(
+            Output(self.profitability_graph.graph_id, "figure"),
+            Input("company-title", "children"),
+        )
+        def display_data(children):
+            return self.profitability_graph.create_figure()
 
     def __enable_financial_leverage_callback(self):
         @callback(
