@@ -1,7 +1,6 @@
 from dash.development.base_component import Component
 import dash_bootstrap_components as dbc
 from dash import dcc, callback, Input, Output, State, html
-from pages.constants.constants import Colors
 
 
 class Navbar(dbc.Row):

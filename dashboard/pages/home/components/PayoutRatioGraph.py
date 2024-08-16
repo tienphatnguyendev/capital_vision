@@ -1,43 +1,81 @@
-from pages.constants.constants import COLORS
+from interfaces.index import IDatabaseManager
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
-import random
+from managers.constants.index import DataKeys, StatementKeys
+from pages.components.CustomeFigure import CustomeFigure
 
 
 class PayoutRatioGraph(Panel):
-    def __init__(self, height):
+    def __init__(self, observable: IDatabaseManager, height):
+        self.graph_id = "payout-ratio-graph"
+        self.set_year_range(5)
+        observable.register_observer(self)
+        self.update(observable)
         self.init_graph()
-        super().__init__("Payout Ratio", [self.graph], height)
+
+        super().__init__("Payout Dividend", [self.graph], height)
+
+    def set_year_range(self, year_range):
+        self.year_range = year_range
+
+    def update(self, observable: IDatabaseManager):
+
+        eps = observable.get_datas(
+            DataKeys.eps,
+            self.year_range,
+            StatementKeys.per_share_statistics,
+            False,
+        )
+
+        dps = observable.get_datas(
+            DataKeys.dps,
+            self.year_range,
+            StatementKeys.per_share_statistics,
+            False,
+        )
+
+        dpr = [dps[year].value / eps[year].value for year in range(0, self.year_range)]
+
+        self.years = [item.year for item in eps]
+        self.payout = [item.value for item in eps]
+        self.dividend_percentages = dpr
 
     def init_graph(self):
-        payout = random.sample(range(50, 2000), 10)
-        dividend_percentages = [random.random() for _ in range(10)]
+        self.fig = self.create_figure()
+        self.graph = dcc.Graph(
+            figure=self.fig,
+            style=dict(height="100%"),
+            config=dict(displayModeBar=False),
+            id=self.graph_id,
+        )
 
-        years = []
-        for i in range(10):
-            years.append(2019 + i)
+    def create_figure(self):
+        legend_x = 1
 
-        fig = go.Figure()
+        fig = CustomeFigure()
 
         fig.add_trace(
             go.Bar(
-                x=years,
-                y=payout,
+                x=self.years,
+                y=self.payout,
                 name="Payout",
-                marker=dict(color=COLORS.light_red),
+                marker=dict(color=Colors.light_red),
             )
         )
 
-        fig.add_trace(
-            go.Scatter(
-                x=years,
-                y=dividend_percentages,
-                name="Percentage",
-                yaxis="y2",
-                marker=dict(color=COLORS.green),
+        if not all(elem == 0 for elem in self.dividend_percentages):
+            fig.add_trace(
+                go.Scatter(
+                    x=self.years,
+                    y=self.dividend_percentages,
+                    name="Payout Ratio",
+                    yaxis="y2",
+                    marker=dict(color=Colors.green),
+                )
             )
-        )
+            legend_x = 1.13
 
         fig.update_layout(
             yaxis=dict(
@@ -48,9 +86,11 @@ class PayoutRatioGraph(Panel):
                 overlaying="y",
             ),
         )
+        fig.update_layout(showlegend=True)
         fig.update_xaxes(dtick=1)
-        fig.update_layout(yaxis_tickformat="$")
+        fig.update_layout(yaxis_tickformat="$.1s")
         fig.update_layout(yaxis2_tickformat=".1%")
+        fig.update_layout(legend=dict(x=legend_x, y=1))
         fig.update_traces(
             hoverlabel=dict(
                 font_size=16,
@@ -58,8 +98,4 @@ class PayoutRatioGraph(Panel):
             ),
             hovertemplate="Year: <b>%{x}</b><br>Value: <b>%{y}</b>",
         )
-
-        self.fig = fig
-        self.graph = dcc.Graph(
-            figure=fig, style=dict(height="100%"), config=dict(displayModeBar=False)
-        )
+        return fig

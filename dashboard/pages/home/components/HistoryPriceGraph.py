@@ -1,50 +1,66 @@
-from pages.constants.constants import COLORS
+from interfaces.index import IDatabaseManager
+from pages.constants.constants import Colors
 from pages.components.Panel import Panel
 from dash import dcc
 import plotly.graph_objects as go
 import yfinance as yf
+from pages.components.CustomeFigure import CustomeFigure
+from datetime import date, timedelta
 
 
 class HistoryPriceGraph(Panel):
-    def __init__(self, height):
+    def __init__(self, observable: IDatabaseManager, height):
+        self.graph_id = "history-price-graph"
+        self.current_date = date.today()
+        self.previous_two_year = self.current_date - timedelta(days=2 * 365)
+
+        observable.register_observer(self)
+        self.update(observable)
         self.init_graph()
+
         super().__init__("History Price", [self.graph], height=height)
 
-    def init_graph(self):
-        df = self.get_mock_prices("BHP.AX")
+    def update(self, observer: IDatabaseManager):
+        symbol = observer.get_current_symbol()
+        ticker = symbol + ".AX"
+        self.df = self.get_prices(ticker)
 
-        color = COLORS.medium_green
-        if df["Close"].iloc[-1] < df["Close"].iloc[0]:
-            color = COLORS.medium_red
+    def create_figure(self):
+        color = Colors.medium_green
+        if self.df["Close"].iloc[-1] < self.df["Close"].iloc[0]:
+            color = Colors.medium_red
 
-        fig = go.Figure(
+        fig = CustomeFigure(
             go.Scatter(
-                x=df["Date"],
-                y=df["Close"],
+                x=self.df["Date"],
+                y=self.df["Close"],
                 mode="lines",
                 line=dict(width=2, color=color),
                 stackgroup="one",
             )
         )
 
-        fig.update_layout(yaxis_tickformat="$")
+        fig.update_layout(yaxis_tickformat="$.1s")
         fig.update_traces(
-            hoverlabel=dict(
-                font_size=16,
-                font_family='Courier "Courier New"',
-            ),
-            hovertemplate="Date: <b>%{x}</b><br>" + "Price: <b>%{y}</b><extra></extra>",
+            hovertemplate="Date: <b>%{x}</b><br>"
+            + "Price: $<b>%{y:3.s}</b><extra></extra>",
         )
 
-        self.fig = fig
+        return fig
+
+    def init_graph(self):
+        self.fig = self.create_figure()
         self.graph = dcc.Graph(
-            figure=fig, style=dict(height="100%"), config=dict(displayModeBar=False)
+            figure=self.fig,
+            style=dict(height="100%"),
+            config=dict(displayModeBar=False),
+            id=self.graph_id,
         )
 
-    def get_mock_prices(self, ticker):
+    def get_prices(self, ticker):
         df = (
             yf.Ticker(ticker)
-            .history(period="1d", start="2012-05-01", end="2023-06-01")
+            .history(period="1d", start=self.previous_two_year, end=self.current_date)
             .reset_index()
         )
         df["Date"] = df["Date"].dt.strftime("%Y-%m-%d")

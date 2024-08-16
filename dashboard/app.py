@@ -1,14 +1,14 @@
+import dash
 from dash import Dash
 import dash_bootstrap_components as dbc
+from interfaces.index import IApp
 from pages.chatPage.ChatPage import ChatPage
+from managers.DatabaseManager import DatabaseManager
 from pages.home.HomePage import HomePage
-from models.FinancialMetrics import FinancialMetrics
-from pages.index.AppLayout import AppLayout
-import dash
+from managers.LayoutManager import LayoutManager
 
 
-class App(Dash):
-    layout: AppLayout
+class App(IApp, Dash):
 
     def __init__(self):
         super().__init__(
@@ -18,10 +18,12 @@ class App(Dash):
             external_stylesheets=[dbc.themes.LITERA],
         )
 
-        self.layout = AppLayout(self)
-        self.financialMetricManager = FinancialMetrics()
-        self.financialMetricManager.symbol("RIO")
+        self.layout = LayoutManager(self)
+        self.databaseManager = DatabaseManager()
 
+        self.init_pages()
+
+    def init_pages(self):
         self.create_pages()
 
     def create_pages(self):
