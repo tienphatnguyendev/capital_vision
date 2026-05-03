@@ -59,11 +59,16 @@ class HistoryPriceGraph(Panel):
         )
 
     def get_prices(self, ticker):
-        df = (
-            yf.Ticker(ticker)
-            .history(start=self.previous_two_year, end=self.current_date)
-            .reset_index()
-        )
-        if not df.empty:
-            df["Date"] = df["Date"].dt.strftime("%Y-%m-%d")
-        return df
+        import pandas as pd
+        try:
+            df = (
+                yf.Ticker(ticker)
+                .history(start=self.previous_two_year, end=self.current_date)
+                .reset_index()
+            )
+            if not df.empty:
+                df["Date"] = df["Date"].dt.strftime("%Y-%m-%d")
+            return df
+        except Exception as e:
+            print(f"Warning: Failed to fetch prices for {ticker} - {e}")
+            return pd.DataFrame()
