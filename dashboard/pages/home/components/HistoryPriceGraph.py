@@ -27,13 +27,14 @@ class HistoryPriceGraph(Panel):
 
     def create_figure(self):
         color = Colors.medium_green
-        if self.df["Close"].iloc[-1] < self.df["Close"].iloc[0]:
-            color = Colors.medium_red
+        if not self.df.empty and len(self.df["Close"]) > 0:
+            if self.df["Close"].iloc[-1] < self.df["Close"].iloc[0]:
+                color = Colors.medium_red
 
         fig = CustomeFigure(
             go.Scatter(
-                x=self.df["Date"],
-                y=self.df["Close"],
+                x=self.df["Date"] if not self.df.empty else [],
+                y=self.df["Close"] if not self.df.empty else [],
                 mode="lines",
                 line=dict(width=2, color=color),
                 stackgroup="one",
@@ -60,8 +61,9 @@ class HistoryPriceGraph(Panel):
     def get_prices(self, ticker):
         df = (
             yf.Ticker(ticker)
-            .history(period="1d", start=self.previous_two_year, end=self.current_date)
+            .history(start=self.previous_two_year, end=self.current_date)
             .reset_index()
         )
-        df["Date"] = df["Date"].dt.strftime("%Y-%m-%d")
+        if not df.empty:
+            df["Date"] = df["Date"].dt.strftime("%Y-%m-%d")
         return df

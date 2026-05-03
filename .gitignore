@@ -4,4 +4,4 @@ CleanedData/
 **/__pycache__/
 *.pyc
 .cv-venv/
-crawler/combined_financial_data.csv
+crawler/combined_financial_data.csvvenv/
